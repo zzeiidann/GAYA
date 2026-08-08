@@ -2,7 +2,7 @@
   "schema_version": 1,
   "status": "ready",
   "auction_date": "2026-08-11",
-  "updated_at": "2026-08-08T20:41:21+07:00",
+  "updated_at": "2026-08-08T23:34:21+07:00",
   "predictions": [
     {
       "series": "PBS030",
@@ -14,11 +14,41 @@
       "prediction": 7.29138,
       "upper": 7.724897,
       "history": [
-        { "auction_date": "2026-06-17", "lower": 7.201651, "prediction": 7.669936, "upper": 8.138221, "actual": 7.07652 },
-        { "auction_date": "2026-06-30", "lower": 6.869112, "prediction": 7.529666, "upper": 8.190221, "actual": 7.18457 },
-        { "auction_date": "2026-07-14", "lower": 6.916792, "prediction": 7.435779, "upper": 7.954767, "actual": 7.14714 },
-        { "auction_date": "2026-07-28", "lower": 6.73436, "prediction": 7.193009, "upper": 7.651658, "actual": 7.19942 },
-        { "auction_date": "2026-08-11", "lower": 6.857863, "prediction": 7.29138, "upper": 7.724897, "actual": null }
+        {
+          "auction_date": "2026-06-17",
+          "lower": 7.201651,
+          "prediction": 7.669936,
+          "upper": 8.138221,
+          "actual": 7.07652
+        },
+        {
+          "auction_date": "2026-06-30",
+          "lower": 6.869112,
+          "prediction": 7.529666,
+          "upper": 8.190221,
+          "actual": 7.18457
+        },
+        {
+          "auction_date": "2026-07-14",
+          "lower": 6.916792,
+          "prediction": 7.435779,
+          "upper": 7.954767,
+          "actual": 7.14714
+        },
+        {
+          "auction_date": "2026-07-28",
+          "lower": 6.73436,
+          "prediction": 7.193009,
+          "upper": 7.651658,
+          "actual": 7.19942
+        },
+        {
+          "auction_date": "2026-08-11",
+          "lower": 6.857863,
+          "prediction": 7.29138,
+          "upper": 7.724897,
+          "actual": null
+        }
       ]
     },
     {
@@ -31,11 +61,41 @@
       "prediction": 7.295304,
       "upper": 7.520942,
       "history": [
-        { "auction_date": "2026-06-17", "lower": 6.890822, "prediction": 7.169188, "upper": 7.447554, "actual": 7.0568 },
-        { "auction_date": "2026-06-30", "lower": 6.90994, "prediction": 7.182309, "upper": 7.454678, "actual": 7.22975 },
-        { "auction_date": "2026-07-14", "lower": 7.006218, "prediction": 7.24046, "upper": 7.474702, "actual": 7.24853 },
-        { "auction_date": "2026-07-28", "lower": 6.960316, "prediction": 7.184252, "upper": 7.408189, "actual": 7.2996 },
-        { "auction_date": "2026-08-11", "lower": 7.069667, "prediction": 7.295304, "upper": 7.520942, "actual": null }
+        {
+          "auction_date": "2026-06-17",
+          "lower": 6.890822,
+          "prediction": 7.169188,
+          "upper": 7.447554,
+          "actual": 7.0568
+        },
+        {
+          "auction_date": "2026-06-30",
+          "lower": 6.90994,
+          "prediction": 7.182309,
+          "upper": 7.454678,
+          "actual": 7.22975
+        },
+        {
+          "auction_date": "2026-07-14",
+          "lower": 7.006218,
+          "prediction": 7.24046,
+          "upper": 7.474702,
+          "actual": 7.24853
+        },
+        {
+          "auction_date": "2026-07-28",
+          "lower": 6.960316,
+          "prediction": 7.184252,
+          "upper": 7.408189,
+          "actual": 7.2996
+        },
+        {
+          "auction_date": "2026-08-11",
+          "lower": 7.069667,
+          "prediction": 7.295304,
+          "upper": 7.520942,
+          "actual": null
+        }
       ]
     },
     {
@@ -48,11 +108,41 @@
       "prediction": 7.219461,
       "upper": 7.371113,
       "history": [
-        { "auction_date": "2026-06-17", "lower": 6.97232, "prediction": 7.13101, "upper": 7.2897, "actual": 7.13321 },
-        { "auction_date": "2026-06-30", "lower": 7.030543, "prediction": 7.162802, "upper": 7.29506, "actual": 7.23851 },
-        { "auction_date": "2026-07-14", "lower": 7.055147, "prediction": 7.189596, "upper": 7.324046, "actual": 7.30777 },
-        { "auction_date": "2026-07-28", "lower": 7.01276, "prediction": 7.152435, "upper": 7.292109, "actual": 7.30764 },
-        { "auction_date": "2026-08-11", "lower": 7.067809, "prediction": 7.219461, "upper": 7.371113, "actual": null }
+        {
+          "auction_date": "2026-06-17",
+          "lower": 6.97232,
+          "prediction": 7.13101,
+          "upper": 7.2897,
+          "actual": 7.13321
+        },
+        {
+          "auction_date": "2026-06-30",
+          "lower": 7.030543,
+          "prediction": 7.162802,
+          "upper": 7.29506,
+          "actual": 7.23851
+        },
+        {
+          "auction_date": "2026-07-14",
+          "lower": 7.055147,
+          "prediction": 7.189596,
+          "upper": 7.324046,
+          "actual": 7.30777
+        },
+        {
+          "auction_date": "2026-07-28",
+          "lower": 7.01276,
+          "prediction": 7.152435,
+          "upper": 7.292109,
+          "actual": 7.30764
+        },
+        {
+          "auction_date": "2026-08-11",
+          "lower": 7.067809,
+          "prediction": 7.219461,
+          "upper": 7.371113,
+          "actual": null
+        }
       ]
     },
     {
@@ -65,11 +155,41 @@
       "prediction": 7.217776,
       "upper": 7.365744,
       "history": [
-        { "auction_date": "2026-06-02", "lower": 6.832732, "prediction": 6.945596, "upper": 7.058459, "actual": 6.9083 },
-        { "auction_date": "2026-06-17", "lower": 6.976902, "prediction": 7.091723, "upper": 7.206544, "actual": 7.21325 },
-        { "auction_date": "2026-07-14", "lower": 7.004424, "prediction": 7.15598, "upper": 7.307535, "actual": 7.30999 },
-        { "auction_date": "2026-07-28", "lower": 7.011154, "prediction": 7.158824, "upper": 7.306494, "actual": 7.31589 },
-        { "auction_date": "2026-08-11", "lower": 7.069809, "prediction": 7.217776, "upper": 7.365744, "actual": null }
+        {
+          "auction_date": "2026-06-02",
+          "lower": 6.832732,
+          "prediction": 6.945596,
+          "upper": 7.058459,
+          "actual": 6.9083
+        },
+        {
+          "auction_date": "2026-06-17",
+          "lower": 6.976902,
+          "prediction": 7.091723,
+          "upper": 7.206544,
+          "actual": 7.21325
+        },
+        {
+          "auction_date": "2026-07-14",
+          "lower": 7.004424,
+          "prediction": 7.15598,
+          "upper": 7.307535,
+          "actual": 7.30999
+        },
+        {
+          "auction_date": "2026-07-28",
+          "lower": 7.011154,
+          "prediction": 7.158824,
+          "upper": 7.306494,
+          "actual": 7.31589
+        },
+        {
+          "auction_date": "2026-08-11",
+          "lower": 7.069809,
+          "prediction": 7.217776,
+          "upper": 7.365744,
+          "actual": null
+        }
       ]
     }
   ]
