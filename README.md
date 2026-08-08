@@ -1,32 +1,98 @@
+<div align="center">
+
 # GAYA
 
-GAYA is an end-to-end machine learning platform that automates data collection, forecasts Indonesian government bond auction yields, and monitors model performance across FR and PBS series through an interactive dashboard.
+### Government Auction Yield Analytics
 
-This public repository contains the presentation layer only. Training data, scraping infrastructure, model parameters, and automated retraining pipelines are maintained separately in a private repository.
+An interactive model board for Indonesia's weekly FR and PBS government bond auctions.
+
+[**Open the live dashboard →**](https://gaya.mohammad-raffy.workers.dev/)
+
+</div>
+
+![GAYA dashboard showing actual and predicted auction yields](docs/gaya-dashboard.png)
+
+## The board
+
+GAYA turns the next government bond auction into a compact, series-level view. Select an FR or PBS series to compare awarded weighted-average yield (`WAY`) history against the model path and its published lower and upper bounds.
+
+The dashboard shows:
+
+- the instruments listed for the upcoming DJPPR auction;
+- one independently fitted model for each eligible bond series;
+- historical actual WAY versus the corresponding backtest prediction;
+- the next prediction with lower and upper bounds;
+- coupon, remaining tenor, maturity date, and auction window.
+
+## Weekly data flow
+
+```text
+Monday 08:15 WIB
+DJPPR auction plan → eligible FR/PBS universe
+
+Tuesday 09:05 WIB
+market snapshot → auction history refresh → model fit per series
+       → sanitized predictions.json → GAYA → Cloudflare deploy
+```
+
+The private pipeline performs scraping, validation, feature construction, model fitting, and diagnostics. This public repository is deliberately limited to the presentation layer and a sanitized prediction feed.
+
+| Public in this repository | Kept private |
+| --- | --- |
+| Series and instrument metadata | Training dataset |
+| Actual WAY history | Model coefficients and diagnostics |
+| Prediction and published bounds | Market feature inputs |
+| Auction and update timestamps | Scraping infrastructure |
+
+If a scheduled auction is unavailable or a series does not have enough observations, the last valid public release remains in place.
 
 ## Model coverage
 
-- Only FR and PBS instruments are modeled.
-- Each bond series has its own independently trained model.
-- The public application receives final predictions plus published lower and upper bounds; it does not receive model coefficients, the 3-month yield feature, or training data.
+- Supported families: `FR` and `PBS`.
+- Estimation: one model per bond code, never one pooled model for every series.
+- Public chart: four historical backtest points plus the next auction projection.
+- Other auction instruments such as `SPN`, `SPNS`, and `PBSG` are not published by the model board.
 
-## Local development
+## Stack
+
+```text
+React · TypeScript · Vite · SVG
+GitHub Actions · Cloudflare
+```
+
+The chart is rendered directly as SVG. The application has no login, browser-side model, hidden API key, or user input form.
+
+## Run locally
 
 ```bash
+git clone https://github.com/zzeiidann/GAYA.git
+cd GAYA
 npm install
 npm run dev
 ```
 
-The application reads `/data/predictions.json`. The private weekly pipeline updates that file after each scheduled model run; the bundled demonstration data is used only if the feed is unavailable.
+Production check:
 
-## Railway deployment
+```bash
+npm run build
+npm run preview
+```
 
-The production image builds the Vite application with Node and serves `dist/` through Caddy. Caddy binds to Railway's injected `$PORT`, provides SPA routing, compression, and a `/health` endpoint.
+The frontend reads [`public/data/predictions.json`](public/data/predictions.json). When the private Tuesday workflow publishes a new version of that file, Cloudflare automatically rebuilds the production branch.
 
-1. Create a Railway project and choose **Deploy from GitHub repo**.
-2. Select `zzeiidann/GAYA` and branch `main`.
-3. Let Railway detect the root `Dockerfile`; no build or start command override is required.
-4. Open **Settings → Networking** and generate a public domain.
-5. Keep GitHub autodeploy enabled so Tuesday prediction commits trigger a fresh deployment.
+## Deployment
 
-No Railway environment variable is required by the frontend. The dashboard reads the versioned `public/data/predictions.json` bundled at build time.
+Production is served by Cloudflare from the `main` branch:
+
+**[gaya.mohammad-raffy.workers.dev](https://gaya.mohammad-raffy.workers.dev/)**
+
+```text
+Build command : npm run build
+Output         : dist
+```
+
+No frontend environment variable is required.
+
+---
+
+GAYA provides statistical estimates for research and monitoring. It is not an investment recommendation.
