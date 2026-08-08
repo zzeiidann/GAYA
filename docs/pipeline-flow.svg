@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="250" viewBox="0 0 1200 250" role="img" aria-labelledby="title desc">
-  <title id="title">GAYA weekly publication flow</title>
-  <desc id="desc">DJPPR auction data and the market snapshot are processed by the private model pipeline, sanitized to JSON, and deployed to the public Cloudflare dashboard.</desc>
+  <title id="title">GAYA Engine weekly publication flow</title>
+  <desc id="desc">DJPPR auction data and contextual inputs are processed by the private GAYA Engine, sanitized to JSON, and deployed to the public Cloudflare dashboard.</desc>
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#121318"/>
@@ -30,8 +30,8 @@
     <rect x="333" y="53" width="235" height="130" fill="#121318" stroke="#121318" stroke-width="4"/>
     <rect x="333" y="53" width="235" height="14" fill="#edbd48"/>
     <text x="353" y="96" fill="#edbd48" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="12" font-weight="900" letter-spacing="1">PRIVATE</text>
-    <text x="353" y="130" fill="#fffaf0" font-family="Arial Black, Impact, sans-serif" font-size="19" font-weight="900">MODEL PIPELINE</text>
-    <text x="353" y="157" fill="#c8c1b4" font-family="Arial, sans-serif" font-size="14" font-weight="700">Validate + fit per series</text>
+    <text x="353" y="130" fill="#fffaf0" font-family="Arial Black, Impact, sans-serif" font-size="19" font-weight="900">GAYA ENGINE</text>
+    <text x="353" y="157" fill="#c8c1b4" font-family="Arial, sans-serif" font-size="14" font-weight="700">Validate + fit + release</text>
   </g>
 
   <g>

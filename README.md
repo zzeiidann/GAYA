@@ -6,11 +6,12 @@
   <a href="https://gaya.mohammad-raffy.workers.dev/"><img alt="Live dashboard" src="https://img.shields.io/badge/LIVE_DASHBOARD-OPEN_NOW-e63d2f?style=for-the-badge&labelColor=121318" /></a>
   <img alt="Coverage FR and PBS" src="https://img.shields.io/badge/COVERAGE-FR_+_PBS-167f9e?style=for-the-badge&labelColor=121318" />
   <img alt="Weekly automated update" src="https://img.shields.io/badge/UPDATE-WEEKLY-edbd48?style=for-the-badge&labelColor=121318" />
+  <img alt="Private engine and public output" src="https://img.shields.io/badge/ENGINE-PRIVATE_→_PUBLIC_OUTPUT-6b4eff?style=for-the-badge&labelColor=121318" />
 </p>
 
 <p align="center">
-  <strong>Government Auction Yield Analytics for Indonesia's FR and PBS bond market.</strong><br />
-  A weekly decision-support dashboard combining awarded yield history, independently fitted per-series projections, and published prediction bounds in one focused desktop view.
+  <strong>GAYA stands for Government Auction Yield Analytics.</strong><br />
+  An automated analytics system for Indonesia's FR and PBS bond auctions, combining a private per-series machine-learning engine, weekly data orchestration, and a continuously deployed public dashboard.
 </p>
 
 ![GAYA dashboard showing actual and predicted auction yields](docs/gaya-dashboard.png)
@@ -56,18 +57,21 @@ Auction coverage and realized yields are anchored to announcements published by 
 | ![Lower](https://img.shields.io/badge/BOUND-LOWER-167f9e?style=flat-square&labelColor=121318) | Published lower prediction bound. |
 | ![Upper](https://img.shields.io/badge/BOUND-UPPER-e63d2f?style=flat-square&labelColor=121318) | Published upper prediction bound. |
 
-## Weekly data flow
+## GAYA Engine
+
+The dashboard is the delivery surface; the **GAYA Engine** is the private machine-learning computation layer behind it. Every auction cycle is rebuilt from source data, evaluated per eligible bond series, and passed through a release gate before any public artifact is produced.
 
 ![GAYA weekly data and deployment flow](docs/pipeline-flow.svg)
 
-The private pipeline performs scraping, validation, feature construction, model fitting, and diagnostics. This public repository is deliberately limited to the presentation layer and a sanitized prediction feed.
+| Engine stage | Responsibility | Exposure |
+| --- | --- | --- |
+| Auction intake | Resolve the next auction, settlement schedule, and eligible FR/PBS universe from official publications. | Private |
+| Data layer | Assemble and validate model-ready histories and contextual inputs for each series. | Private |
+| Per-series ML forecasting | Fit, evaluate, and generate an independent projection for every eligible bond code. | Private |
+| Release gate | Check observation sufficiency, output validity, and diagnostics; retain the last valid release when a run is not publishable. | Private |
+| Prediction contract | Serialize only display-ready actuals, projections, bounds, instrument metadata, and timestamps. | Public |
 
-| Public in this repository | Kept private |
-| --- | --- |
-| Series and instrument metadata | Training dataset |
-| Actual WAY history | Model coefficients and diagnostics |
-| Prediction and published bounds | Market feature inputs |
-| Auction and update timestamps | Scraping infrastructure |
+> **Model boundary:** no training dataset, feature recipe, fitted parameter, diagnostic output, serialized model, or callable inference code is shipped to the browser. The public application receives only the sanitized prediction contract. Client-side C++, WebAssembly, and minification are not treated as model protection because browser-delivered code remains inspectable.
 
 If a scheduled auction is unavailable or a series does not have enough observations, the last valid public release remains in place.
 
@@ -81,35 +85,35 @@ If a scheduled auction is unavailable or a series does not have enough observati
 
 `SPN`, `SPNS`, and `PBSG` instruments are intentionally excluded from the public model board.
 
-## Stack
+## System stack
 
 <table>
   <tr>
-    <td width="25%" align="center">
-      <img alt="React" src="https://img.shields.io/badge/REACT-UI-167f9e?style=for-the-badge&labelColor=121318" /><br /><br />
-      Component-based dashboard and model selector.
+    <td width="33%" align="center">
+      <img alt="Python" src="https://img.shields.io/badge/PYTHON-GAYA_ENGINE-3776ab?style=for-the-badge&labelColor=121318&logo=python&logoColor=white" /><br /><br />
+      Private ingestion, validation, forecasting, and release pipeline.
     </td>
-    <td width="25%" align="center">
-      <img alt="TypeScript" src="https://img.shields.io/badge/TYPESCRIPT-DATA_CONTRACT-3178c6?style=for-the-badge&labelColor=121318" /><br /><br />
-      Typed public payload and series metadata.
+    <td width="33%" align="center">
+      <img alt="pandas" src="https://img.shields.io/badge/PANDAS-DATA_LAYER-150458?style=for-the-badge&labelColor=121318&logo=pandas&logoColor=white" /><br /><br />
+      Historical assembly, schema checks, and model-ready series data.
     </td>
-    <td width="25%" align="center">
-      <img alt="Vite" src="https://img.shields.io/badge/VITE-BUILD-edbd48?style=for-the-badge&labelColor=121318" /><br /><br />
-      Fast local development and production bundles.
-    </td>
-    <td width="25%" align="center">
-      <img alt="SVG" src="https://img.shields.io/badge/SVG-CHART-e63d2f?style=for-the-badge&labelColor=121318" /><br /><br />
-      Dependency-free chart rendering and labels.
+    <td width="33%" align="center">
+      <img alt="GitHub Actions" src="https://img.shields.io/badge/GITHUB_ACTIONS-ORCHESTRATION-ffffff?style=for-the-badge&logo=githubactions&logoColor=white&labelColor=121318" /><br /><br />
+      Monday intake, Tuesday model refresh, validation, and publication.
     </td>
   </tr>
   <tr>
-    <td colspan="2" align="center">
-      <img alt="GitHub Actions" src="https://img.shields.io/badge/GITHUB_ACTIONS-WEEKLY_RELEASE-ffffff?style=for-the-badge&logo=githubactions&logoColor=white&labelColor=121318" /><br /><br />
-      Receives the sanitized release produced by the private weekly workflow.
+    <td width="33%" align="center">
+      <img alt="React and TypeScript" src="https://img.shields.io/badge/REACT_+_TYPESCRIPT-DASHBOARD-167f9e?style=for-the-badge&labelColor=121318" /><br /><br />
+      Typed public contract, model selector, and analytics interface.
     </td>
-    <td colspan="2" align="center">
+    <td width="33%" align="center">
+      <img alt="Vite and SVG" src="https://img.shields.io/badge/VITE_+_SVG-VISUALIZATION-edbd48?style=for-the-badge&labelColor=121318" /><br /><br />
+      Production bundle and dependency-free chart rendering.
+    </td>
+    <td width="33%" align="center">
       <img alt="Cloudflare" src="https://img.shields.io/badge/CLOUDFLARE-AUTO_DEPLOY-f38020?style=for-the-badge&logo=cloudflare&logoColor=white&labelColor=121318" /><br /><br />
-      Rebuilds and serves the production dashboard after every release commit.
+      Continuous build and global delivery after every public release.
     </td>
   </tr>
 </table>
