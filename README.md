@@ -27,7 +27,27 @@ The dashboard shows:
 - the next prediction with lower and upper bounds;
 - coupon, remaining tenor, maturity date, and auction window.
 
-### Reading the chart
+## Official data source
+
+Auction coverage and realized yields are anchored to announcements published by the Directorate General of Budget Financing and Risk Management (`DJPPR`), Ministry of Finance of the Republic of Indonesia. The source is kept visible so every series, auction date, and realized `WAY` shown by GAYA can be traced back to an official release.
+
+<p align="center">
+  <a href="https://djppr.kemenkeu.go.id/hasillelangsuratutangnegarapadahariselasa,tanggal4agustus2026">
+    <img src="docs/djppr-auction-result.png" width="100%" alt="Official DJPPR auction result announcement for 4 August 2026" />
+  </a>
+</p>
+
+<p align="center">
+  <sub>Official DJPPR auction-result content, 4 August 2026. Documentation snapshot rendered from the content published by DJPPR; click the image to open the original announcement.</sub>
+</p>
+
+| Official publication | Role in GAYA |
+| --- | --- |
+| `Rencana Lelang` | Establishes the upcoming auction date, settlement date, eligible series, coupon, and maturity. |
+| `Hasil Lelang` | Supplies realized weighted-average yield, awarded nominal, incoming bids, and bid-to-cover for historical observations. |
+| Public GAYA release | Exposes only the auction context, actual history, model projection, and published bounds required by the dashboard. |
+
+## Reading the chart
 
 | Series | Meaning |
 | --- | --- |
