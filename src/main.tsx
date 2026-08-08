@@ -22,6 +22,7 @@ type ForecastPoint = {
   lower: number;
   point: number;
   upper: number;
+  actual: number | null;
 };
 
 type ApiForecastPoint = {
@@ -29,6 +30,7 @@ type ApiForecastPoint = {
   lower: number;
   prediction: number;
   upper: number;
+  actual: number | null;
 };
 
 type ApiPrediction = {
@@ -66,7 +68,7 @@ function makeHistory(item: Prediction): ForecastPoint[] {
   if (item.history.length > 1) return item.history;
   return auctionLabels.map((label, index) => {
     if (index === auctionLabels.length - 1) {
-      return { label, lower: item.lower, point: item.point, upper: item.upper };
+      return { label, lower: item.lower, point: item.point, upper: item.upper, actual: null };
     }
 
     const point = item.point + historyOffsets[index];
@@ -77,6 +79,7 @@ function makeHistory(item: Prediction): ForecastPoint[] {
       lower: point - lowerSpread,
       point,
       upper: point + upperSpread,
+      actual: null,
     };
   });
 }
@@ -119,6 +122,7 @@ function mapPayload(payload: PredictionPayload): Prediction[] {
       lower: entry.lower,
       point: entry.prediction,
       upper: entry.upper,
+      actual: entry.actual,
     })),
   }));
 }
@@ -131,7 +135,11 @@ function ModelChart({ item }: { item: Prediction }) {
   const right = 116;
   const top = 32;
   const bottom = 50;
-  const values = history.flatMap((entry) => [entry.lower, entry.upper]);
+  const values = history.flatMap((entry) => [
+    entry.lower,
+    entry.upper,
+    ...(entry.actual === null ? [] : [entry.actual]),
+  ]);
   const rawMin = Math.min(...values) - 0.035;
   const rawMax = Math.max(...values) + 0.035;
   const yMin = Math.floor(rawMin * 20) / 20;
@@ -144,11 +152,18 @@ function ModelChart({ item }: { item: Prediction }) {
     ...history.map((entry, index) => `${x(index)},${y(entry.upper)}`),
     ...history.slice().reverse().map((entry, reverseIndex) => `${x(history.length - 1 - reverseIndex)},${y(entry.lower)}`),
   ].join(" ");
+  const actualPoints = history.flatMap((entry, index) =>
+    entry.actual === null ? [] : [{ index, value: entry.actual }]
+  );
+  const actualPath = actualPoints
+    .map((entry, index) => `${index === 0 ? "M" : "L"} ${x(entry.index)} ${y(entry.value)}`)
+    .join(" ");
   const latest = history.at(-1)!;
   const latestX = x(history.length - 1);
+  const latestActual = actualPoints.at(-1);
 
   return (
-    <svg className="model-chart" viewBox={`0 0 ${width} ${height}`} role="img" aria-label={`Pergerakan keluaran model ${item.series}`}>
+    <svg className="model-chart" viewBox={`0 0 ${width} ${height}`} role="img" aria-label={`Perbandingan WAY aktual dan prediksi model ${item.series}`}>
       {yTicks.map((tick) => (
         <g key={tick}>
           <line x1={left} x2={width - right} y1={y(tick)} y2={y(tick)} className="chart-grid" />
@@ -166,6 +181,7 @@ function ModelChart({ item }: { item: Prediction }) {
       <path d={path("upper")} className="forecast-line upper-line" />
       <path d={path("lower")} className="forecast-line lower-line" />
       <path d={path("point")} className="forecast-line model-line" />
+      {actualPath && <path d={actualPath} className="forecast-line actual-line" />}
 
       {history.map((entry, index) => (
         <g key={`${entry.label}-points`}>
@@ -173,6 +189,16 @@ function ModelChart({ item }: { item: Prediction }) {
           <circle cx={x(index)} cy={y(entry.lower)} r="3.5" className="forecast-dot lower-dot" />
           <circle cx={x(index)} cy={y(entry.point)} r={index === history.length - 1 ? 7 : 4.5} className="forecast-dot model-dot" />
         </g>
+      ))}
+
+      {actualPoints.map((entry) => (
+        <circle
+          key={`${history[entry.index].label}-actual`}
+          cx={x(entry.index)}
+          cy={y(entry.value)}
+          r="5"
+          className="forecast-dot actual-dot"
+        />
       ))}
 
       <g className="latest-labels">
@@ -183,6 +209,25 @@ function ModelChart({ item }: { item: Prediction }) {
         <line x1={latestX + 8} x2={latestX + 20} y1={y(latest.lower)} y2={y(latest.lower)} className="label-link lower-link" />
         <text x={latestX + 25} y={y(latest.lower) + 4} className="end-label lower-text">BAWAH {latest.lower.toFixed(3)}%</text>
       </g>
+
+      {latestActual && (
+        <g className="latest-actual-label">
+          <line
+            x1={x(latestActual.index) + 7}
+            x2={x(latestActual.index) + 20}
+            y1={y(latestActual.value)}
+            y2={y(latestActual.value)}
+            className="label-link actual-link"
+          />
+          <text
+            x={x(latestActual.index) + 25}
+            y={y(latestActual.value) + 4}
+            className="end-label actual-text"
+          >
+            AKTUAL {latestActual.value.toFixed(3)}%
+          </text>
+        </g>
+      )}
     </svg>
   );
 }
@@ -340,8 +385,9 @@ function App() {
             </div>
 
             <div className="chart-meta">
-              <div><span>MODEL OUTPUT / 5 LELANG</span><h2>Jejak prediksi {selected.series}</h2></div>
+              <div><span>{selected.history.filter((entry) => entry.actual !== null).length} HASIL AKTUAL / 1 PROYEKSI</span><h2>Aktual vs model {selected.series}</h2></div>
               <div className="chart-legend">
+                <span><i className="actual-key" />WAY aktual</span>
                 <span><i className="lower-key" />Batas bawah</span>
                 <span><i className="model-key" />Prediksi model</span>
                 <span><i className="upper-key" />Batas atas</span>
