@@ -9,8 +9,8 @@
 </p>
 
 <p align="center">
-  <strong>An interactive model board for Indonesia's weekly government bond auctions.</strong><br />
-  Actual awarded yields, per-series predictions, and published bounds in one desktop view.
+  <strong>Government Auction Yield Analytics for Indonesia's FR and PBS bond market.</strong><br />
+  A weekly decision-support dashboard combining awarded yield history, independently fitted per-series projections, and published prediction bounds in one focused desktop view.
 </p>
 
 ![GAYA dashboard showing actual and predicted auction yields](docs/gaya-dashboard.png)
@@ -94,25 +94,7 @@ If a scheduled auction is unavailable or a series does not have enough observati
   </tr>
 </table>
 
-The public application has no login, browser-side model, secret key, or user input form.
-
-## Run locally
-
-```bash
-git clone https://github.com/zzeiidann/GAYA.git
-cd GAYA
-npm install
-npm run dev
-```
-
-Production check:
-
-```bash
-npm run build
-npm run preview
-```
-
-The frontend reads [`public/data/predictions.json`](public/data/predictions.json). When the private Tuesday workflow publishes a new version of that file, Cloudflare automatically rebuilds the production branch.
+The public application has no login, browser-side model, secret key, or user input form. It reads a sanitized release from [`public/data/predictions.json`](public/data/predictions.json); model fitting and sensitive inputs remain in the private pipeline.
 
 ## Deployment
 
