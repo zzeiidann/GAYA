@@ -14,6 +14,7 @@ type Prediction = {
   lower: number;
   point: number;
   upper: number;
+  history: ForecastPoint[];
 };
 
 type ForecastPoint = {
@@ -23,19 +24,46 @@ type ForecastPoint = {
   upper: number;
 };
 
-const predictions: Prediction[] = [
-  { series: "PBS030", family: "PBS", maturity: "15 Jul 2028", tenor: "1,9 tahun", coupon: 5.875, lower: 6.412, point: 6.468, upper: 6.527 },
-  { series: "FR0103", family: "FR", maturity: "15 Jul 2035", tenor: "8,9 tahun", coupon: 6.75, lower: 6.812, point: 6.875, upper: 6.941 },
-  { series: "FR0106", family: "FR", maturity: "15 Agu 2040", tenor: "14,0 tahun", coupon: 7.125, lower: 6.903, point: 6.974, upper: 7.048 },
-  { series: "FR0107", family: "FR", maturity: "15 Agu 2045", tenor: "19,0 tahun", coupon: 7.125, lower: 6.994, point: 7.071, upper: 7.151 },
-  { series: "PBS038", family: "PBS", maturity: "15 Des 2049", tenor: "23,3 tahun", coupon: 6.875, lower: 7.018, point: 7.098, upper: 7.181 },
-  { series: "FR0102", family: "FR", maturity: "15 Jul 2054", tenor: "27,9 tahun", coupon: 6.875, lower: 7.061, point: 7.145, upper: 7.232 },
+type ApiForecastPoint = {
+  auction_date: string;
+  lower: number;
+  prediction: number;
+  upper: number;
+};
+
+type ApiPrediction = {
+  series: string;
+  family: Family;
+  maturity_date: string;
+  tenor_years: number;
+  coupon_rate_pct: number;
+  lower: number;
+  prediction: number;
+  upper: number;
+  history: ApiForecastPoint[];
+};
+
+type PredictionPayload = {
+  status: "ready" | "failed";
+  auction_date: string;
+  updated_at: string;
+  predictions: ApiPrediction[];
+};
+
+const demoPredictions: Prediction[] = [
+  { series: "PBS030", family: "PBS", maturity: "15 Jul 2028", tenor: "1,9 tahun", coupon: 5.875, lower: 6.412, point: 6.468, upper: 6.527, history: [] },
+  { series: "FR0103", family: "FR", maturity: "15 Jul 2035", tenor: "8,9 tahun", coupon: 6.75, lower: 6.812, point: 6.875, upper: 6.941, history: [] },
+  { series: "FR0106", family: "FR", maturity: "15 Agu 2040", tenor: "14,0 tahun", coupon: 7.125, lower: 6.903, point: 6.974, upper: 7.048, history: [] },
+  { series: "FR0107", family: "FR", maturity: "15 Agu 2045", tenor: "19,0 tahun", coupon: 7.125, lower: 6.994, point: 7.071, upper: 7.151, history: [] },
+  { series: "PBS038", family: "PBS", maturity: "15 Des 2049", tenor: "23,3 tahun", coupon: 6.875, lower: 7.018, point: 7.098, upper: 7.181, history: [] },
+  { series: "FR0102", family: "FR", maturity: "15 Jul 2054", tenor: "27,9 tahun", coupon: 6.875, lower: 7.061, point: 7.145, upper: 7.232, history: [] },
 ];
 
 const auctionLabels = ["14 JUL", "21 JUL", "28 JUL", "04 AGU", "11 AGU"];
 const historyOffsets = [-0.104, -0.069, -0.052, -0.026, 0];
 
 function makeHistory(item: Prediction): ForecastPoint[] {
+  if (item.history.length > 1) return item.history;
   return auctionLabels.map((label, index) => {
     if (index === auctionLabels.length - 1) {
       return { label, lower: item.lower, point: item.point, upper: item.upper };
@@ -51,6 +79,48 @@ function makeHistory(item: Prediction): ForecastPoint[] {
       upper: point + upperSpread,
     };
   });
+}
+
+function parseLocalDate(value: string): Date {
+  return new Date(`${value}T00:00:00+07:00`);
+}
+
+function formatDate(value: string, options: Intl.DateTimeFormatOptions): string {
+  return new Intl.DateTimeFormat("id-ID", { timeZone: "Asia/Jakarta", ...options })
+    .format(parseLocalDate(value))
+    .replaceAll(".", "");
+}
+
+function shortAuctionDate(value: string): string {
+  return formatDate(value, { day: "2-digit", month: "short" }).toUpperCase();
+}
+
+function fullAuctionDate(value: string): string {
+  return formatDate(value, { day: "2-digit", month: "short", year: "numeric" }).toUpperCase();
+}
+
+function issueLabel(value: string): string {
+  const parsed = parseLocalDate(value);
+  return `${String(parsed.getMonth() + 1).padStart(2, "0")}.${String(parsed.getFullYear()).slice(-2)}`;
+}
+
+function mapPayload(payload: PredictionPayload): Prediction[] {
+  return payload.predictions.map((item) => ({
+    series: item.series,
+    family: item.family,
+    maturity: formatDate(item.maturity_date, { day: "2-digit", month: "short", year: "numeric" }),
+    tenor: `${item.tenor_years.toLocaleString("id-ID", { minimumFractionDigits: 1, maximumFractionDigits: 1 })} tahun`,
+    coupon: item.coupon_rate_pct,
+    lower: item.lower,
+    point: item.prediction,
+    upper: item.upper,
+    history: item.history.map((entry) => ({
+      label: shortAuctionDate(entry.auction_date),
+      lower: entry.lower,
+      point: entry.prediction,
+      upper: entry.upper,
+    })),
+  }));
 }
 
 function ModelChart({ item }: { item: Prediction }) {
@@ -118,10 +188,47 @@ function ModelChart({ item }: { item: Prediction }) {
 }
 
 function App() {
+  const [predictions, setPredictions] = useState(demoPredictions);
   const [selectedSeries, setSelectedSeries] = useState("FR0103");
   const [modelMenuOpen, setModelMenuOpen] = useState(false);
+  const [auctionDate, setAuctionDate] = useState("2026-08-11");
+  const [dataLabel, setDataLabel] = useState("DEMO FALLBACK");
   const modelPickerRef = useRef<HTMLDivElement>(null);
   const selected = predictions.find((item) => item.series === selectedSeries) ?? predictions[0];
+
+  useEffect(() => {
+    let active = true;
+    fetch("/data/predictions.json", { cache: "no-store" })
+      .then((response) => {
+        if (!response.ok) throw new Error(`Prediction feed returned ${response.status}`);
+        return response.json() as Promise<PredictionPayload>;
+      })
+      .then((payload) => {
+        if (!active || payload.status !== "ready" || payload.predictions.length === 0) return;
+        const mapped = mapPayload(payload);
+        setPredictions(mapped);
+        setAuctionDate(payload.auction_date);
+        setSelectedSeries((current) =>
+          mapped.some((item) => item.series === current) ? current : mapped[0].series
+        );
+        const updated = new Date(payload.updated_at);
+        setDataLabel(
+          `UPDATED · ${new Intl.DateTimeFormat("id-ID", {
+            day: "2-digit",
+            month: "short",
+            hour: "2-digit",
+            minute: "2-digit",
+            timeZone: "Asia/Jakarta",
+          }).format(updated).replace(",", " ·").replaceAll(".", ":").toUpperCase()} WIB`
+        );
+      })
+      .catch(() => {
+        if (active) setDataLabel("DEMO FALLBACK");
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
 
   useEffect(() => {
     if (!modelMenuOpen) return;
@@ -151,8 +258,8 @@ function App() {
       <header className="comic-masthead">
         <div className="issue-rail">
           <b>WEEKLY MARKET COMIC</b>
-          <span>ISSUE 08.26</span>
-          <span>JAKARTA / SATURDAY EDITION</span>
+          <span>ISSUE {issueLabel(auctionDate)}</span>
+          <span>JAKARTA / AUCTION EDITION</span>
         </div>
         <div className="cover-brand">GAYA</div>
         <div className="cover-title">
@@ -163,10 +270,10 @@ function App() {
         <div className="cover-slug">FR + PBS<br /><b>MODEL DESK</b></div>
         <div className="auction-date">
           <small>NEXT DROP</small>
-          <b>11 AUG</b>
+          <b>{shortAuctionDate(auctionDate)}</b>
           <span>09:00—11:00 WIB</span>
         </div>
-        <div className="cover-status"><i /><span>MODEL BOARD ONLINE</span><small>DATA CONTOH · 08 AUG 2026</small></div>
+        <div className="cover-status"><i /><span>MODEL BOARD ONLINE</span><small>{dataLabel}</small></div>
       </header>
 
       <main>
@@ -178,7 +285,7 @@ function App() {
             <p>Pilih model FR atau PBS. Ikuti prediksi, batas bawah, dan batas atas dalam satu panel.</p>
           </div>
           <div className="desk-facts">
-            <article><CalendarDays /><div><span>LELANG</span><b>11 AGU 2026</b></div></article>
+            <article><CalendarDays /><div><span>LELANG</span><b>{fullAuctionDate(auctionDate)}</b></div></article>
             <article><Clock3 /><div><span>WINDOW</span><b>09:00—11:00</b></div></article>
             <article><Layers3 /><div><span>CAST</span><b>{predictions.length} MODEL</b></div></article>
           </div>
