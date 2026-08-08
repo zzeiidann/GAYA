@@ -1,6 +1,6 @@
-import { StrictMode, useState } from "react";
+import { StrictMode, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { CalendarDays, Clock3, Layers3 } from "lucide-react";
+import { Activity, CalendarDays, ChevronDown, Clock3, Layers3 } from "lucide-react";
 import "./styles.css";
 
 type Family = "FR" | "PBS";
@@ -10,90 +10,109 @@ type Prediction = {
   family: Family;
   maturity: string;
   tenor: string;
-  tenorYears: number;
   coupon: number;
   lower: number;
   point: number;
   upper: number;
 };
 
+type ForecastPoint = {
+  label: string;
+  lower: number;
+  point: number;
+  upper: number;
+};
+
 const predictions: Prediction[] = [
-  { series: "PBS030", family: "PBS", maturity: "15 Jul 2028", tenor: "1,9 tahun", tenorYears: 1.9, coupon: 5.875, lower: 6.412, point: 6.468, upper: 6.527 },
-  { series: "FR0103", family: "FR", maturity: "15 Jul 2035", tenor: "8,9 tahun", tenorYears: 8.9, coupon: 6.75, lower: 6.812, point: 6.875, upper: 6.941 },
-  { series: "FR0106", family: "FR", maturity: "15 Agu 2040", tenor: "14,0 tahun", tenorYears: 14, coupon: 7.125, lower: 6.903, point: 6.974, upper: 7.048 },
-  { series: "FR0107", family: "FR", maturity: "15 Agu 2045", tenor: "19,0 tahun", tenorYears: 19, coupon: 7.125, lower: 6.994, point: 7.071, upper: 7.151 },
-  { series: "PBS038", family: "PBS", maturity: "15 Des 2049", tenor: "23,3 tahun", tenorYears: 23.3, coupon: 6.875, lower: 7.018, point: 7.098, upper: 7.181 },
-  { series: "FR0102", family: "FR", maturity: "15 Jul 2054", tenor: "27,9 tahun", tenorYears: 27.9, coupon: 6.875, lower: 7.061, point: 7.145, upper: 7.232 },
+  { series: "PBS030", family: "PBS", maturity: "15 Jul 2028", tenor: "1,9 tahun", coupon: 5.875, lower: 6.412, point: 6.468, upper: 6.527 },
+  { series: "FR0103", family: "FR", maturity: "15 Jul 2035", tenor: "8,9 tahun", coupon: 6.75, lower: 6.812, point: 6.875, upper: 6.941 },
+  { series: "FR0106", family: "FR", maturity: "15 Agu 2040", tenor: "14,0 tahun", coupon: 7.125, lower: 6.903, point: 6.974, upper: 7.048 },
+  { series: "FR0107", family: "FR", maturity: "15 Agu 2045", tenor: "19,0 tahun", coupon: 7.125, lower: 6.994, point: 7.071, upper: 7.151 },
+  { series: "PBS038", family: "PBS", maturity: "15 Des 2049", tenor: "23,3 tahun", coupon: 6.875, lower: 7.018, point: 7.098, upper: 7.181 },
+  { series: "FR0102", family: "FR", maturity: "15 Jul 2054", tenor: "27,9 tahun", coupon: 6.875, lower: 7.061, point: 7.145, upper: 7.232 },
 ];
 
-function BondDoodle() {
-  return (
-    <svg className="bond-doodle" viewBox="0 0 360 190" aria-hidden="true">
-      <g className="doodle-dots">
-        {Array.from({ length: 48 }, (_, index) => <circle key={index} cx={230 + (index % 8) * 13} cy={22 + Math.floor(index / 8) * 13} r="2.2" />)}
-      </g>
-      <g className="certificate">
-        <path d="M28 42 Q31 34 41 36 L248 50 Q257 51 256 61 L245 151 Q244 160 235 159 L28 145 Q19 143 21 134 Z" />
-        <path d="M43 56 L233 69 L225 140 L36 127 Z" />
-        <path d="M62 76 L132 81 M61 92 L116 96 M61 108 L104 111" />
-        <circle cx="190" cy="105" r="24" />
-        <text x="190" y="112" textAnchor="middle">SBN</text>
-      </g>
-      <g className="growth-arrow">
-        <path d="M112 161 C160 155 192 145 219 124 C245 104 268 75 310 55" />
-        <path d="M291 53 L312 53 L309 73" />
-      </g>
-    </svg>
-  );
+const auctionLabels = ["14 JUL", "21 JUL", "28 JUL", "04 AGU", "11 AGU"];
+const historyOffsets = [-0.104, -0.069, -0.052, -0.026, 0];
+
+function makeHistory(item: Prediction): ForecastPoint[] {
+  return auctionLabels.map((label, index) => {
+    if (index === auctionLabels.length - 1) {
+      return { label, lower: item.lower, point: item.point, upper: item.upper };
+    }
+
+    const point = item.point + historyOffsets[index];
+    const lowerSpread = 0.052 + index * 0.003;
+    const upperSpread = 0.058 + index * 0.002;
+    return {
+      label,
+      lower: point - lowerSpread,
+      point,
+      upper: point + upperSpread,
+    };
+  });
 }
 
-function YieldCurveChart({ selectedSeries, onSelect }: { selectedSeries: string; onSelect: (series: string) => void }) {
-  const width = 900;
-  const height = 410;
-  const left = 72;
-  const right = 28;
-  const top = 46;
-  const bottom = 62;
-  const yMin = 6.3;
-  const yMax = 7.3;
-  const x = (tenor: number) => left + (tenor / 30) * (width - left - right);
+function ModelChart({ item }: { item: Prediction }) {
+  const history = useMemo(() => makeHistory(item), [item]);
+  const width = 840;
+  const height = 336;
+  const left = 58;
+  const right = 116;
+  const top = 32;
+  const bottom = 50;
+  const values = history.flatMap((entry) => [entry.lower, entry.upper]);
+  const rawMin = Math.min(...values) - 0.035;
+  const rawMax = Math.max(...values) + 0.035;
+  const yMin = Math.floor(rawMin * 20) / 20;
+  const yMax = Math.ceil(rawMax * 20) / 20;
+  const x = (index: number) => left + (index / (history.length - 1)) * (width - left - right);
   const y = (value: number) => top + ((yMax - value) / (yMax - yMin)) * (height - top - bottom);
-  const yTicks = [6.3, 6.5, 6.7, 6.9, 7.1, 7.3];
-  const xTicks = [0, 5, 10, 15, 20, 25, 30];
-  const curve = predictions.map((item) => `${x(item.tenorYears)},${y(item.point)}`).join(" ");
+  const yTicks = Array.from({ length: 5 }, (_, index) => yMin + ((yMax - yMin) / 4) * index);
+  const path = (key: "lower" | "point" | "upper") => history.map((entry, index) => `${index === 0 ? "M" : "L"} ${x(index)} ${y(entry[key])}`).join(" ");
+  const band = [
+    ...history.map((entry, index) => `${x(index)},${y(entry.upper)}`),
+    ...history.slice().reverse().map((entry, reverseIndex) => `${x(history.length - 1 - reverseIndex)},${y(entry.lower)}`),
+  ].join(" ");
+  const latest = history.at(-1)!;
+  const latestX = x(history.length - 1);
 
   return (
-    <svg className="yield-chart" viewBox={`0 0 ${width} ${height}`} role="img" aria-label="Kurva prediksi yield berdasarkan tenor">
+    <svg className="model-chart" viewBox={`0 0 ${width} ${height}`} role="img" aria-label={`Pergerakan keluaran model ${item.series}`}>
       {yTicks.map((tick) => (
         <g key={tick}>
           <line x1={left} x2={width - right} y1={y(tick)} y2={y(tick)} className="chart-grid" />
-          <text x={left - 13} y={y(tick) + 4} textAnchor="end" className="axis-text">{tick.toFixed(1)}%</text>
+          <text x={left - 12} y={y(tick) + 4} textAnchor="end" className="axis-text">{tick.toFixed(2)}%</text>
         </g>
       ))}
-      {xTicks.map((tick) => (
-        <g key={tick}>
-          <line x1={x(tick)} x2={x(tick)} y1={top} y2={height - bottom} className="chart-grid vertical" />
-          <text x={x(tick)} y={height - 29} textAnchor="middle" className="axis-text">{tick}Y</text>
+      {history.map((entry, index) => (
+        <g key={entry.label}>
+          <line x1={x(index)} x2={x(index)} y1={top} y2={height - bottom} className="chart-grid vertical" />
+          <text x={x(index)} y={height - 18} textAnchor="middle" className="axis-text date-label">{entry.label}</text>
         </g>
       ))}
-      <text x="17" y="34" className="axis-title">YIELD</text>
-      <text x={width - right} y={height - 8} textAnchor="end" className="axis-title">TENOR</text>
-      <polyline points={curve} className="curve-line" />
 
-      {predictions.map((item) => {
-        const px = x(item.tenorYears);
-        const selected = selectedSeries === item.series;
-        return (
-          <g className={`chart-security ${item.family.toLowerCase()} ${selected ? "selected" : ""}`} key={item.series} onClick={() => onSelect(item.series)} role="button" tabIndex={0}>
-            <line x1={px} x2={px} y1={y(item.upper)} y2={y(item.lower)} className="bound-line" />
-            <line x1={px - 8} x2={px + 8} y1={y(item.upper)} y2={y(item.upper)} className="bound-cap" />
-            <line x1={px - 8} x2={px + 8} y1={y(item.lower)} y2={y(item.lower)} className="bound-cap" />
-            <circle cx={px} cy={y(item.point)} r={selected ? 9 : 7} className="yield-point" />
-            <circle cx={px} cy={y(item.point)} r="3" className="yield-core" />
-            <text x={px} y={y(item.upper) - 13} textAnchor="middle" className="security-label">{item.series}</text>
-          </g>
-        );
-      })}
+      <polygon points={band} className="forecast-band" />
+      <path d={path("upper")} className="forecast-line upper-line" />
+      <path d={path("lower")} className="forecast-line lower-line" />
+      <path d={path("point")} className="forecast-line model-line" />
+
+      {history.map((entry, index) => (
+        <g key={`${entry.label}-points`}>
+          <circle cx={x(index)} cy={y(entry.upper)} r="3.5" className="forecast-dot upper-dot" />
+          <circle cx={x(index)} cy={y(entry.lower)} r="3.5" className="forecast-dot lower-dot" />
+          <circle cx={x(index)} cy={y(entry.point)} r={index === history.length - 1 ? 7 : 4.5} className="forecast-dot model-dot" />
+        </g>
+      ))}
+
+      <g className="latest-labels">
+        <line x1={latestX + 8} x2={latestX + 20} y1={y(latest.upper)} y2={y(latest.upper)} className="label-link upper-link" />
+        <text x={latestX + 25} y={y(latest.upper) + 4} className="end-label upper-text">ATAS {latest.upper.toFixed(3)}%</text>
+        <line x1={latestX + 8} x2={latestX + 20} y1={y(latest.point)} y2={y(latest.point)} className="label-link model-link" />
+        <text x={latestX + 25} y={y(latest.point) + 4} className="end-label model-text">MODEL {latest.point.toFixed(3)}%</text>
+        <line x1={latestX + 8} x2={latestX + 20} y1={y(latest.lower)} y2={y(latest.lower)} className="label-link lower-link" />
+        <text x={latestX + 25} y={y(latest.lower) + 4} className="end-label lower-text">BAWAH {latest.lower.toFixed(3)}%</text>
+      </g>
     </svg>
   );
 }
@@ -104,49 +123,83 @@ function App() {
 
   return (
     <div className="app">
-      <header className="topbar">
-        <div className="brand"><strong>GAYA</strong><span>Dashboard</span></div>
-        <p>Government Auction Yield Analytics</p>
-        <div className="updated"><i /> Data contoh · 8 Agu 2026</div>
+      <header className="market-header">
+        <div className="header-main">
+          <div className="brand-lockup">
+            <div className="brand">GAYA<span>///</span></div>
+            <div className="brand-copy"><b>GOVERNMENT AUCTION</b><span>YIELD ANALYTICS</span></div>
+          </div>
+          <div className="desk-title">
+            <span>SOVEREIGN BOND DESK</span>
+            <b>INDONESIA · FR / PBS</b>
+          </div>
+          <div className="auction-sticker">
+            <small>NEXT AUCTION</small>
+            <b>11 AUG ’26</b>
+            <span>09:00—11:00 WIB</span>
+          </div>
+          <div className="market-live"><i /><span>MODEL BOARD</span><b>ONLINE</b><small>Data contoh · 08 AUG 2026</small></div>
+        </div>
+        <div className="ticker-bar">
+          <b>AUCTION WIRE</b>
+          <span>6 SERI DITAWARKAN</span><i />
+          <span>FR &amp; PBS ONLY</span><i />
+          <span>MODEL DIPISAH PER KODE SERI</span><i />
+          <strong>WEEKLY MODEL DROP ↗</strong>
+        </div>
       </header>
 
       <main>
-        <section className="intro">
-          <div className="intro-copy">
-            <span className="eyebrow">LELANG OBLIGASI PEMERINTAH</span>
-            <h1>Dashboard prediksi yield lelang</h1>
-            <p>Estimasi Weighted Average Yield untuk seri FR dan PBS pada lelang berikutnya.</p>
+        <section className="dashboard-heading">
+          <div className="heading-copy">
+            <span className="eyebrow">AUCTION MODEL MONITOR</span>
+            <h1>Satu seri. Satu model yield.</h1>
+            <p>Pilih seri FR atau PBS, lalu baca pergerakan prediksi model beserta batas bawah dan batas atasnya.</p>
           </div>
-          <BondDoodle />
-          <div className="auction-note">
-            <small>LELANG BERIKUTNYA</small>
-            <b>11 AGU 2026</b>
-            <span>Selasa · 09:00–11:00 WIB</span>
+          <div className="desk-facts">
+            <article><CalendarDays /><div><span>TANGGAL LELANG</span><b>11 Agustus 2026</b></div></article>
+            <article><Clock3 /><div><span>PENAWARAN</span><b>09:00—11:00 WIB</b></div></article>
+            <article><Layers3 /><div><span>MODEL AKTIF</span><b>6 seri</b></div></article>
           </div>
-        </section>
-
-        <section className="summary-grid">
-          <article><CalendarDays /><div><span>Tanggal lelang</span><b>11 Agustus 2026</b></div></article>
-          <article><Clock3 /><div><span>Jendela penawaran</span><b>09:00–11:00 WIB</b></div></article>
-          <article><Layers3 /><div><span>Seri ditawarkan</span><b>6 seri · FR &amp; PBS</b></div></article>
         </section>
 
         <section className="dashboard-grid">
           <article className="chart-card">
             <div className="panel-head">
-              <div><span>LELANG 11 AGUSTUS 2026</span><h2>Prediksi yield berdasarkan tenor</h2></div>
-              <div className="chart-legend"><span><i className="fr-key" />FR</span><span><i className="pbs-key" />PBS</span></div>
-              <div className="selected-quote"><span>{selected.series}</span><b>{selected.point.toFixed(3)}%</b></div>
+              <div className="model-selector">
+                <label htmlFor="series-model"><Activity /> MODEL SERI</label>
+                <div className="select-shell">
+                  <select id="series-model" value={selected.series} onChange={(event) => setSelectedSeries(event.target.value)}>
+                    {predictions.map((item) => <option value={item.series} key={item.series}>{item.series} · {item.family}</option>)}
+                  </select>
+                  <ChevronDown />
+                </div>
+              </div>
+              <div className="security-facts">
+                <span><small>TENOR</small><b>{selected.tenor}</b></span>
+                <span><small>KUPON</small><b>{selected.coupon.toFixed(3)}%</b></span>
+                <span><small>JATUH TEMPO</small><b>{selected.maturity}</b></span>
+              </div>
+              <div className="primary-output"><span>PREDIKSI MODEL</span><b>{selected.point.toFixed(3)}%</b></div>
             </div>
-            <YieldCurveChart selectedSeries={selected.series} onSelect={setSelectedSeries} />
+
+            <div className="chart-meta">
+              <div><span>MODEL OUTPUT / 5 LELANG</span><h2>Jejak prediksi {selected.series}</h2></div>
+              <div className="chart-legend">
+                <span><i className="lower-key" />Batas bawah</span>
+                <span><i className="model-key" />Prediksi model</span>
+                <span><i className="upper-key" />Batas atas</span>
+              </div>
+            </div>
+            <ModelChart item={selected} />
           </article>
 
           <aside className="table-panel">
-            <div className="table-title"><div><span>HASIL MODEL</span><h2>Prediksi per seri</h2></div><small>Klik untuk pilih</small></div>
-            <div className="table-head"><span>Seri</span><span>Prediksi</span><span>Batas bawah</span><span>Batas atas</span></div>
+            <div className="table-title"><div><span>MODEL DIRECTORY</span><h2>Pilih model seri</h2></div><small>6 ACTIVE</small></div>
+            <div className="table-head"><span>Seri</span><span>Model</span><span>Bawah</span><span>Atas</span></div>
             {predictions.map((item) => (
               <button className={`table-row ${selected.series === item.series ? "selected" : ""}`} onClick={() => setSelectedSeries(item.series)} key={item.series}>
-                <span className="series-code"><i className={item.family.toLowerCase()} /><span><b>{item.series}</b><small>{item.tenor} · {item.coupon.toFixed(3)}%</small></span></span>
+                <span className="series-code"><i className={item.family.toLowerCase()} /><span><b>{item.series}</b><small>{item.tenor} · {item.family}</small></span></span>
                 <b className="number prediction-number">{item.point.toFixed(3)}%</b>
                 <span className="number">{item.lower.toFixed(3)}%</span>
                 <span className="number">{item.upper.toFixed(3)}%</span>
@@ -156,7 +209,10 @@ function App() {
         </section>
       </main>
 
-      <footer><span>GAYA · Government Auction Yield Analytics</span><span>Estimasi statistik, bukan rekomendasi investasi.</span></footer>
+      <footer>
+        <span><b>GAYA</b> · Government Auction Yield Analytics</span>
+        <span>Estimasi statistik, bukan rekomendasi investasi.</span>
+      </footer>
     </div>
   );
 }
