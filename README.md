@@ -130,6 +130,25 @@ If a scheduled auction is unavailable or a series does not have enough observati
 
 The public application has no login, browser-side model, secret key, or user input form. It reads a sanitized release from [`public/data/predictions.json`](public/data/predictions.json); model fitting and sensitive inputs remain in the private pipeline.
 
+## Operating budget
+
+<p align="center">
+  <img alt="Expected monthly run rate zero dollars" src="https://img.shields.io/badge/EXPECTED_RUN_RATE-%240%2FMONTH-15966a?style=for-the-badge&labelColor=121318" />
+  <img alt="Free tier headroom high" src="https://img.shields.io/badge/FREE_TIER_HEADROOM-HIGH-167f9e?style=for-the-badge&labelColor=121318" />
+  <img alt="Paid infrastructure none" src="https://img.shields.io/badge/PAID_INFRASTRUCTURE-NONE-edbd48?style=for-the-badge&labelColor=121318" />
+</p>
+
+GAYA is designed to operate at **$0 per month** on the current schedule and traffic profile. The estimate uses successful workflow durations, configured timeout ceilings, and vendor free-tier limits available on **9 August 2026**.
+
+| Cost center | Free allowance | GAYA operating estimate | Reset |
+| --- | ---: | ---: | --- |
+| [GitHub Actions](https://docs.github.com/en/billing/managing-billing-for-your-products/managing-billing-for-github-actions/about-billing-for-github-actions) | 2,000 Linux runner minutes/month | Approximately 17–20 minutes/month under normal runs; below 200 minutes even if both weekly jobs reach their configured timeouts. | Billing cycle |
+| [Cloudflare Workers Builds](https://developers.cloudflare.com/workers/ci-cd/builds/limits-and-pricing/) | 3,000 build minutes/month | Approximately 4–5 production builds/month; at most 100 minutes if every weekly build reaches the 20-minute timeout. | Monthly |
+| [Cloudflare Static Assets](https://developers.cloudflare.com/workers/static-assets/billing-and-limitations/) | Free and unlimited requests | Dashboard HTML, JavaScript, CSS, images, and the public prediction payload are served as static assets. | Not applicable |
+| [Cloudflare Workers runtime](https://developers.cloudflare.com/workers/platform/limits/) | 100,000 requests/day | Reserved headroom if a request invokes Worker code instead of matching a static asset. | Daily at 00:00 UTC |
+
+The zero-cost policy assumes GitHub Free, Cloudflare Workers Free, a `$0` GitHub Actions paid-usage budget, and no paid database, API, VM, container, or external scheduler. If a free limit is exhausted, the preferred failure mode is to pause the run or deployment rather than allow paid overage. Vendor pricing and limits may change; the linked official documentation remains authoritative.
+
 ## Deployment
 
 Production is served by Cloudflare from the `main` branch:
