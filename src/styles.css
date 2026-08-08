@@ -33,11 +33,11 @@ button { font: inherit; }
 .cover-title > small { grid-column: 1 / -1; margin-top: 9px; font: 800 9px "SFMono-Regular", Consolas, monospace; letter-spacing: .06em; }
 .cover-slug { position: relative; z-index: 2; align-self: center; justify-self: center; padding: 9px 12px; color: var(--panel); background: var(--ink); border: 3px solid var(--ink); box-shadow: 5px 5px 0 var(--gold); font: 800 10px "SFMono-Regular", Consolas, monospace; line-height: 1.35; transform: rotate(-2deg); }
 .cover-slug b { color: var(--gold); }
-.auction-burst { position: relative; z-index: 3; align-self: center; justify-self: center; width: 166px; height: 102px; padding: 23px 20px 12px; color: var(--ink); background: var(--gold); clip-path: polygon(50% 0, 60% 10%, 75% 4%, 81% 18%, 98% 19%, 92% 35%, 100% 50%, 90% 61%, 95% 78%, 78% 80%, 70% 96%, 54% 88%, 40% 100%, 31% 86%, 13% 90%, 12% 72%, 0 63%, 9% 48%, 2% 31%, 20% 25%, 24% 8%, 41% 13%); text-align: center; transform: rotate(2deg); }
+.auction-burst { position: relative; z-index: 3; align-self: start; justify-self: center; width: 154px; height: 74px; margin-top: 6px; padding: 14px 18px 8px; color: var(--ink); background: var(--gold); clip-path: polygon(50% 0, 60% 10%, 75% 4%, 81% 18%, 98% 19%, 92% 35%, 100% 50%, 90% 61%, 95% 78%, 78% 80%, 70% 96%, 54% 88%, 40% 100%, 31% 86%, 13% 90%, 12% 72%, 0 63%, 9% 48%, 2% 31%, 20% 25%, 24% 8%, 41% 13%); text-align: center; transform: rotate(1deg); }
 .auction-burst::after { content: ""; position: absolute; inset: 7px; border: 2px solid var(--ink); clip-path: inherit; }
 .auction-burst small, .auction-burst span { position: relative; z-index: 1; display: block; font: 900 7px "SFMono-Regular", Consolas, monospace; }
-.auction-burst b { position: relative; z-index: 1; display: block; margin: 1px 0; font-family: "Arial Black", Impact, sans-serif; font-size: 21px; letter-spacing: -.04em; }
-.cover-status { position: absolute; z-index: 5; right: 15px; bottom: 8px; display: grid; grid-template-columns: 8px auto; align-items: center; gap: 2px 6px; padding: 6px 9px; color: white; background: var(--ink); border-left: 5px solid var(--red); font: 800 8px "SFMono-Regular", Consolas, monospace; }
+.auction-burst b { position: relative; z-index: 1; display: block; margin: 0; font-family: "Arial Black", Impact, sans-serif; font-size: 19px; letter-spacing: -.04em; }
+.cover-status { position: absolute; z-index: 5; right: 15px; bottom: 5px; width: 190px; display: grid; grid-template-columns: 8px auto; align-items: center; gap: 2px 6px; padding: 4px 8px; color: white; background: var(--ink); border-left: 5px solid var(--red); font: 800 8px "SFMono-Regular", Consolas, monospace; }
 .cover-status i { width: 7px; height: 7px; border-radius: 50%; background: var(--gold); }
 .cover-status small { grid-column: 2; color: #918e88; font-size: 6px; }
 
