@@ -8,7 +8,7 @@ This public repository contains the presentation layer only. Training data, scra
 
 - Only FR and PBS instruments are modeled.
 - Each bond series has its own independently trained model.
-- The public application receives final point forecasts and prediction intervals; it does not receive model coefficients or training data.
+- The public application receives final predictions plus published lower and upper bounds; it does not receive model coefficients or training data.
 
 ## Local development
 
