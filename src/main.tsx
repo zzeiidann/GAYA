@@ -1,4 +1,4 @@
-import { StrictMode, useMemo, useState } from "react";
+import { StrictMode, useEffect, useMemo, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { Activity, CalendarDays, ChevronDown, Clock3, Layers3 } from "lucide-react";
 import "./styles.css";
@@ -120,7 +120,26 @@ function ModelChart({ item }: { item: Prediction }) {
 function App() {
   const [selectedSeries, setSelectedSeries] = useState("FR0103");
   const [modelMenuOpen, setModelMenuOpen] = useState(false);
+  const modelPickerRef = useRef<HTMLDivElement>(null);
   const selected = predictions.find((item) => item.series === selectedSeries) ?? predictions[0];
+
+  useEffect(() => {
+    if (!modelMenuOpen) return;
+
+    const closeOnOutsideClick = (event: PointerEvent) => {
+      if (!modelPickerRef.current?.contains(event.target as Node)) setModelMenuOpen(false);
+    };
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setModelMenuOpen(false);
+    };
+
+    document.addEventListener("pointerdown", closeOnOutsideClick);
+    document.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.removeEventListener("pointerdown", closeOnOutsideClick);
+      document.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [modelMenuOpen]);
 
   const chooseModel = (series: string) => {
     setSelectedSeries(series);
@@ -161,7 +180,7 @@ function App() {
           <div className="desk-facts">
             <article><CalendarDays /><div><span>LELANG</span><b>11 AGU 2026</b></div></article>
             <article><Clock3 /><div><span>WINDOW</span><b>09:00—11:00</b></div></article>
-            <article><Layers3 /><div><span>CAST</span><b>6 MODEL</b></div></article>
+            <article><Layers3 /><div><span>CAST</span><b>{predictions.length} MODEL</b></div></article>
           </div>
         </section>
 
@@ -170,7 +189,7 @@ function App() {
             <div className="panel-head">
               <div className="model-selector">
                 <label id="series-model-label"><Activity /> MODEL SERI</label>
-                <div className={`model-picker ${modelMenuOpen ? "open" : ""}`}>
+                <div className={`model-picker ${modelMenuOpen ? "open" : ""}`} ref={modelPickerRef}>
                   <button
                     className="model-trigger"
                     type="button"
@@ -186,7 +205,7 @@ function App() {
                   </button>
                   {modelMenuOpen && (
                     <div className="model-options" role="listbox" aria-label="Pilih model seri">
-                      <div className="model-options-head"><span>MODEL DIRECTORY</span><b>6 ACTIVE</b></div>
+                      <div className="model-options-head"><span>MODEL DIRECTORY</span><b>{predictions.length} ACTIVE</b></div>
                       {predictions.map((item, index) => (
                         <button
                           type="button"
@@ -225,10 +244,10 @@ function App() {
           </article>
 
           <aside className="table-panel" data-panel="02">
-            <div className="table-title"><div><span>THE MODEL CAST</span><h2>Pilih seri cerita</h2></div><small>6 ACTIVE</small></div>
+            <div className="table-title"><div><span>THE MODEL CAST</span><h2>Pilih seri cerita</h2></div><small>{predictions.length} ACTIVE</small></div>
             <div className="table-head"><span>Seri</span><span>Model</span><span>Bawah</span><span>Atas</span></div>
             {predictions.map((item) => (
-              <button className={`table-row ${selected.series === item.series ? "selected" : ""}`} onClick={() => chooseModel(item.series)} key={item.series}>
+              <button type="button" className={`table-row ${selected.series === item.series ? "selected" : ""}`} onClick={() => chooseModel(item.series)} key={item.series}>
                 <span className="series-code"><i className={item.family.toLowerCase()} /><span><b>{item.series}</b><small>{item.tenor} · {item.family}</small></span></span>
                 <b className="number prediction-number">{item.point.toFixed(3)}%</b>
                 <span className="number">{item.lower.toFixed(3)}%</span>
