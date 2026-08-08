@@ -1,14 +1,17 @@
-<div align="center">
+<p align="center">
+  <img src="docs/readme-cover.svg" width="100%" alt="GAYA — Government Auction Yield Analytics" />
+</p>
 
-# GAYA
+<p align="center">
+  <a href="https://gaya.mohammad-raffy.workers.dev/"><img alt="Live dashboard" src="https://img.shields.io/badge/LIVE_DASHBOARD-OPEN_NOW-e63d2f?style=for-the-badge&labelColor=121318" /></a>
+  <img alt="Coverage FR and PBS" src="https://img.shields.io/badge/COVERAGE-FR_+_PBS-167f9e?style=for-the-badge&labelColor=121318" />
+  <img alt="Weekly automated update" src="https://img.shields.io/badge/UPDATE-WEEKLY-edbd48?style=for-the-badge&labelColor=121318" />
+</p>
 
-### Government Auction Yield Analytics
-
-An interactive model board for Indonesia's weekly FR and PBS government bond auctions.
-
-[**Open the live dashboard →**](https://gaya.mohammad-raffy.workers.dev/)
-
-</div>
+<p align="center">
+  <strong>An interactive model board for Indonesia's weekly government bond auctions.</strong><br />
+  Actual awarded yields, per-series predictions, and published bounds in one desktop view.
+</p>
 
 ![GAYA dashboard showing actual and predicted auction yields](docs/gaya-dashboard.png)
 
