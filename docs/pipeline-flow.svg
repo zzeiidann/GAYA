@@ -1,59 +1,109 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="250" viewBox="0 0 1200 250" role="img" aria-labelledby="title desc">
-  <title id="title">GAYA Engine weekly publication flow</title>
-  <desc id="desc">DJPPR auction data and contextual inputs are processed by the private GAYA Engine, sanitized to JSON, and deployed to the public Cloudflare dashboard.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="460" viewBox="0 0 1200 460" role="img" aria-labelledby="title desc">
+  <title id="title">Weekly GAYA system flow</title>
+  <desc id="desc">Official auction notices move through private auction preparation, validated data assembly, the GAYA Engine, and a release gate. A sanitized JSON release then moves through the public repository and Cloudflare to the analytics dashboard.</desc>
   <defs>
-    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#121318"/>
     </marker>
     <pattern id="dots" width="10" height="10" patternUnits="userSpaceOnUse">
-      <circle cx="1.5" cy="1.5" r="1" fill="#121318" opacity=".12"/>
+      <circle cx="1.5" cy="1.5" r="1" fill="#121318" opacity=".1"/>
     </pattern>
   </defs>
 
-  <rect width="1200" height="250" fill="#fffaf0"/>
-  <rect width="1200" height="250" fill="url(#dots)"/>
-  <rect x="1" y="1" width="1198" height="248" fill="none" stroke="#121318" stroke-width="2"/>
+  <rect width="1200" height="460" fill="#fffaf0"/>
+  <rect width="1200" height="460" fill="url(#dots)"/>
+  <rect x="1" y="1" width="1198" height="458" fill="none" stroke="#121318" stroke-width="2"/>
 
-  <line x1="267" y1="118" x2="329" y2="118" stroke="#121318" stroke-width="4" marker-end="url(#arrow)"/>
-  <line x1="568" y1="118" x2="630" y2="118" stroke="#121318" stroke-width="4" marker-end="url(#arrow)"/>
-  <line x1="869" y1="118" x2="931" y2="118" stroke="#121318" stroke-width="4" marker-end="url(#arrow)"/>
+  <text x="32" y="38" fill="#121318" font-family="Arial Black, Impact, sans-serif" font-size="22" font-weight="900">WEEKLY GAYA SYSTEM FLOW</text>
+  <text x="1168" y="37" text-anchor="end" fill="#615d56" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="12" font-weight="800">PRIVATE ENGINE → PUBLIC DELIVERY</text>
+
+  <rect x="32" y="58" width="1136" height="172" fill="#fffaf0" stroke="#121318" stroke-width="2"/>
+  <rect x="32" y="58" width="190" height="25" fill="#121318"/>
+  <text x="47" y="75" fill="#edbd48" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="11" font-weight="900" letter-spacing="1">PRIVATE AUTOMATION</text>
+
+  <line x1="246" y1="153" x2="272" y2="153" stroke="#121318" stroke-width="4" marker-end="url(#arrow)"/>
+  <line x1="472" y1="153" x2="498" y2="153" stroke="#121318" stroke-width="4" marker-end="url(#arrow)"/>
+  <line x1="698" y1="153" x2="724" y2="153" stroke="#121318" stroke-width="4" marker-end="url(#arrow)"/>
+  <line x1="924" y1="153" x2="950" y2="153" stroke="#121318" stroke-width="4" marker-end="url(#arrow)"/>
 
   <g>
-    <rect x="32" y="53" width="235" height="130" fill="#fffaf0" stroke="#121318" stroke-width="4"/>
-    <rect x="32" y="53" width="235" height="14" fill="#e63d2f"/>
-    <text x="52" y="96" fill="#e63d2f" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="12" font-weight="900" letter-spacing="1">SOURCE</text>
-    <text x="52" y="130" fill="#121318" font-family="Arial Black, Impact, sans-serif" font-size="19" font-weight="900">DJPPR AUCTION</text>
-    <text x="52" y="157" fill="#514d47" font-family="Arial, sans-serif" font-size="14" font-weight="700">Plan + awarded results</text>
+    <rect x="50" y="100" width="196" height="105" fill="#fffaf0" stroke="#121318" stroke-width="3"/>
+    <rect x="50" y="100" width="196" height="9" fill="#e63d2f"/>
+    <text x="65" y="131" fill="#e63d2f" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="10" font-weight="900">01 · SOURCE</text>
+    <text x="65" y="158" fill="#121318" font-family="Arial Black, Impact, sans-serif" font-size="16" font-weight="900">DJPPR NOTICE</text>
+    <text x="65" y="183" fill="#59554f" font-family="Arial, sans-serif" font-size="12" font-weight="700">Plan + awarded results</text>
   </g>
 
   <g>
-    <rect x="333" y="53" width="235" height="130" fill="#121318" stroke="#121318" stroke-width="4"/>
-    <rect x="333" y="53" width="235" height="14" fill="#edbd48"/>
-    <text x="353" y="96" fill="#edbd48" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="12" font-weight="900" letter-spacing="1">PRIVATE</text>
-    <text x="353" y="130" fill="#fffaf0" font-family="Arial Black, Impact, sans-serif" font-size="19" font-weight="900">GAYA ENGINE</text>
-    <text x="353" y="157" fill="#c8c1b4" font-family="Arial, sans-serif" font-size="14" font-weight="700">Validate + fit + release</text>
+    <rect x="276" y="100" width="196" height="105" fill="#fffaf0" stroke="#121318" stroke-width="3"/>
+    <rect x="276" y="100" width="196" height="9" fill="#167f9e"/>
+    <text x="291" y="131" fill="#167f9e" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="10" font-weight="900">02 · MON 08:15</text>
+    <text x="291" y="158" fill="#121318" font-family="Arial Black, Impact, sans-serif" font-size="16" font-weight="900">AUCTION STATE</text>
+    <text x="291" y="183" fill="#59554f" font-family="Arial, sans-serif" font-size="12" font-weight="700">Date + FR/PBS scope</text>
   </g>
 
   <g>
-    <rect x="634" y="53" width="235" height="130" fill="#fffaf0" stroke="#121318" stroke-width="4"/>
-    <rect x="634" y="53" width="235" height="14" fill="#167f9e"/>
-    <text x="654" y="96" fill="#167f9e" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="12" font-weight="900" letter-spacing="1">PUBLIC CONTRACT</text>
-    <text x="654" y="130" fill="#121318" font-family="Arial Black, Impact, sans-serif" font-size="19" font-weight="900">PREDICTIONS.JSON</text>
-    <text x="654" y="157" fill="#514d47" font-family="Arial, sans-serif" font-size="14" font-weight="700">Actual + bounds only</text>
+    <rect x="502" y="100" width="196" height="105" fill="#fffaf0" stroke="#121318" stroke-width="3"/>
+    <rect x="502" y="100" width="196" height="9" fill="#edbd48"/>
+    <text x="517" y="131" fill="#9c6b00" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="10" font-weight="900">03 · DATA LAYER</text>
+    <text x="517" y="158" fill="#121318" font-family="Arial Black, Impact, sans-serif" font-size="16" font-weight="900">VALIDATED DATA</text>
+    <text x="517" y="183" fill="#59554f" font-family="Arial, sans-serif" font-size="12" font-weight="700">Model-ready histories</text>
   </g>
 
   <g>
-    <rect x="935" y="53" width="235" height="130" fill="#edbd48" stroke="#121318" stroke-width="4"/>
-    <rect x="935" y="53" width="235" height="14" fill="#e63d2f"/>
-    <text x="955" y="96" fill="#e63d2f" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="12" font-weight="900" letter-spacing="1">DELIVERY</text>
-    <text x="955" y="130" fill="#121318" font-family="Arial Black, Impact, sans-serif" font-size="19" font-weight="900">CLOUDFLARE</text>
-    <text x="955" y="157" fill="#3f3b34" font-family="Arial, sans-serif" font-size="14" font-weight="700">Automatic production build</text>
+    <rect x="728" y="100" width="196" height="105" fill="#121318" stroke="#121318" stroke-width="3"/>
+    <rect x="728" y="100" width="196" height="9" fill="#edbd48"/>
+    <text x="743" y="131" fill="#edbd48" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="10" font-weight="900">04 · TUE 09:05</text>
+    <text x="743" y="158" fill="#fffaf0" font-family="Arial Black, Impact, sans-serif" font-size="16" font-weight="900">GAYA ENGINE</text>
+    <text x="743" y="183" fill="#c9c3b8" font-family="Arial, sans-serif" font-size="12" font-weight="700">Per-series ML forecasts</text>
   </g>
 
-  <rect x="32" y="202" width="260" height="28" fill="#e63d2f"/>
-  <rect x="302" y="202" width="289" height="28" fill="#167f9e"/>
-  <rect x="601" y="202" width="569" height="28" fill="#121318"/>
-  <text x="162" y="221" text-anchor="middle" fill="#fffaf0" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="11" font-weight="900">MONDAY · 08:15 WIB</text>
-  <text x="446" y="221" text-anchor="middle" fill="#fffaf0" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="11" font-weight="900">TUESDAY · 09:05 WIB</text>
-  <text x="885" y="221" text-anchor="middle" fill="#edbd48" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="11" font-weight="900">PUSH TO MAIN → AUTOMATIC DEPLOY</text>
+  <g>
+    <rect x="954" y="100" width="196" height="105" fill="#fffaf0" stroke="#121318" stroke-width="3"/>
+    <rect x="954" y="100" width="196" height="9" fill="#6b4eff"/>
+    <text x="969" y="131" fill="#6b4eff" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="10" font-weight="900">05 · RELEASE</text>
+    <text x="969" y="158" fill="#121318" font-family="Arial Black, Impact, sans-serif" font-size="16" font-weight="900">QUALITY GATE</text>
+    <text x="969" y="183" fill="#59554f" font-family="Arial, sans-serif" font-size="12" font-weight="700">Publish or retain</text>
+  </g>
+
+  <rect x="32" y="258" width="1136" height="170" fill="#f3f7f6" stroke="#121318" stroke-width="2"/>
+  <rect x="993" y="258" width="175" height="25" fill="#167f9e"/>
+  <text x="1008" y="275" fill="#fffaf0" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="11" font-weight="900" letter-spacing="1">PUBLIC DELIVERY</text>
+
+  <path d="M1052 205 L1052 244 L172 244 L172 302" fill="none" stroke="#121318" stroke-width="4" marker-end="url(#arrow)"/>
+  <line x1="295" y1="354" x2="326" y2="354" stroke="#121318" stroke-width="4" marker-end="url(#arrow)"/>
+  <line x1="575" y1="354" x2="606" y2="354" stroke="#121318" stroke-width="4" marker-end="url(#arrow)"/>
+  <line x1="855" y1="354" x2="886" y2="354" stroke="#121318" stroke-width="4" marker-end="url(#arrow)"/>
+
+  <g>
+    <rect x="50" y="302" width="245" height="105" fill="#fffaf0" stroke="#121318" stroke-width="3"/>
+    <rect x="50" y="302" width="245" height="9" fill="#167f9e"/>
+    <text x="66" y="333" fill="#167f9e" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="10" font-weight="900">06 · PUBLIC CONTRACT</text>
+    <text x="66" y="360" fill="#121318" font-family="Arial Black, Impact, sans-serif" font-size="16" font-weight="900">SANITIZED JSON</text>
+    <text x="66" y="385" fill="#59554f" font-family="Arial, sans-serif" font-size="12" font-weight="700">Actual + projection + bounds</text>
+  </g>
+
+  <g>
+    <rect x="330" y="302" width="245" height="105" fill="#fffaf0" stroke="#121318" stroke-width="3"/>
+    <rect x="330" y="302" width="245" height="9" fill="#e63d2f"/>
+    <text x="346" y="333" fill="#e63d2f" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="10" font-weight="900">07 · VERSIONED OUTPUT</text>
+    <text x="346" y="360" fill="#121318" font-family="Arial Black, Impact, sans-serif" font-size="16" font-weight="900">PUBLIC REPOSITORY</text>
+    <text x="346" y="385" fill="#59554f" font-family="Arial, sans-serif" font-size="12" font-weight="700">One auditable release</text>
+  </g>
+
+  <g>
+    <rect x="610" y="302" width="245" height="105" fill="#fffaf0" stroke="#121318" stroke-width="3"/>
+    <rect x="610" y="302" width="245" height="9" fill="#f38020"/>
+    <text x="626" y="333" fill="#c75c00" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="10" font-weight="900">08 · CONTINUOUS DELIVERY</text>
+    <text x="626" y="360" fill="#121318" font-family="Arial Black, Impact, sans-serif" font-size="16" font-weight="900">CLOUDFLARE BUILD</text>
+    <text x="626" y="385" fill="#59554f" font-family="Arial, sans-serif" font-size="12" font-weight="700">Automatic production build</text>
+  </g>
+
+  <g>
+    <rect x="890" y="302" width="260" height="105" fill="#edbd48" stroke="#121318" stroke-width="3"/>
+    <rect x="890" y="302" width="260" height="9" fill="#121318"/>
+    <text x="906" y="333" fill="#9d2f27" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="10" font-weight="900">09 · LIVE PRODUCT</text>
+    <text x="906" y="360" fill="#121318" font-family="Arial Black, Impact, sans-serif" font-size="16" font-weight="900">GAYA DASHBOARD</text>
+    <text x="906" y="385" fill="#4c4435" font-family="Arial, sans-serif" font-size="12" font-weight="700">Public auction analytics</text>
+  </g>
 </svg>

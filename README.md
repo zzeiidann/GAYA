@@ -61,7 +61,17 @@ Auction coverage and realized yields are anchored to announcements published by 
 
 The dashboard is the delivery surface; the **GAYA Engine** is the private machine-learning computation layer behind it. Every auction cycle is rebuilt from source data, evaluated per eligible bond series, and passed through a release gate before any public artifact is produced.
 
+### Two runs. One public release.
+
+| Cycle | Schedule | Public-safe outcome |
+| --- | --- | --- |
+| Auction preparation | Monday · 08:15 WIB | Resolve the next auction and persist the eligible FR/PBS universe. |
+| Engine refresh | Tuesday · 09:05 WIB | Refresh validated inputs, rebuild eligible series models, and evaluate the release. |
+| Continuous delivery | Successful release only | Publish one sanitized payload and trigger the production dashboard build. |
+
 ![GAYA weekly data and deployment flow](docs/pipeline-flow.svg)
+
+### Private/public boundary
 
 | Engine stage | Responsibility | Exposure |
 | --- | --- | --- |
