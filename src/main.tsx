@@ -142,7 +142,7 @@ function App() {
           <small>Government Auction Yield Analytics</small>
         </div>
         <div className="cover-slug">FR + PBS<br /><b>MODEL DESK</b></div>
-        <div className="auction-ticket">
+        <div className="auction-date">
           <small>NEXT DROP</small>
           <b>11 AUG</b>
           <span>09:00—11:00 WIB</span>
