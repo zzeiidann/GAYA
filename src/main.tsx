@@ -302,19 +302,19 @@ function App() {
     <div className="app">
       <header className="comic-masthead">
         <div className="issue-rail">
-          <b>WEEKLY MARKET COMIC</b>
-          <span>ISSUE {issueLabel(auctionDate)}</span>
-          <span>JAKARTA / AUCTION EDITION</span>
+          <b>WEEKLY AUCTION MONITOR</b>
+          <span>WEEK {issueLabel(auctionDate)}</span>
+          <span>JAKARTA / GOVERNMENT BONDS</span>
         </div>
         <div className="cover-brand">GAYA</div>
         <div className="cover-title">
           <span>THE</span>
-          <b>YIELD<br />FILES</b>
+          <b>YIELD<br />DESK</b>
           <small>Government Auction Yield Analytics</small>
         </div>
         <div className="cover-slug">FR + PBS<br /><b>MODEL DESK</b></div>
         <div className="auction-date">
-          <small>NEXT DROP</small>
+          <small>NEXT AUCTION</small>
           <b>{shortAuctionDate(auctionDate)}</b>
           <span>09:00—11:00 WIB</span>
         </div>
@@ -323,7 +323,7 @@ function App() {
 
       <main>
         <section className="story-lede">
-          <div className="chapter-mark"><span>CHAPTER</span><b>01</b></div>
+          <div className="chapter-mark"><span>BOARD</span><b>01</b></div>
           <div className="heading-copy">
             <span className="eyebrow">AUCTION MODEL BOARD</span>
             <h1>Model lelang FR &amp; PBS</h1>
@@ -332,7 +332,7 @@ function App() {
           <div className="desk-facts">
             <article><CalendarDays /><div><span>LELANG</span><b>{fullAuctionDate(auctionDate)}</b></div></article>
             <article><Clock3 /><div><span>WINDOW</span><b>09:00—11:00</b></div></article>
-            <article><Layers3 /><div><span>CAST</span><b>{predictions.length} MODEL</b></div></article>
+            <article><Layers3 /><div><span>UNIVERSE</span><b>{predictions.length} SERI</b></div></article>
           </div>
         </section>
 
@@ -352,12 +352,12 @@ function App() {
                   >
                     <span>{selected.family}</span>
                     <b>{selected.series}</b>
-                    <small>PER-SERIES</small>
+                    <small>OLS / SERI</small>
                     <ChevronDown />
                   </button>
                   {modelMenuOpen && (
                     <div className="model-options" role="listbox" aria-label="Pilih model seri">
-                      <div className="model-options-head"><span>MODEL DIRECTORY</span><b>{predictions.length} ACTIVE</b></div>
+                      <div className="model-options-head"><span>DAFTAR MODEL</span><b>{predictions.length} SERI</b></div>
                       {predictions.map((item, index) => (
                         <button
                           type="button"
@@ -397,7 +397,7 @@ function App() {
           </article>
 
           <aside className="table-panel" data-panel="02">
-            <div className="table-title"><div><span>THE MODEL CAST</span><h2>Pilih seri cerita</h2></div><small>{predictions.length} ACTIVE</small></div>
+            <div className="table-title"><div><span>AUCTION UNIVERSE</span><h2>Seri lelang aktif</h2></div><small>{predictions.length} SERI</small></div>
             <div className="table-head"><span>Seri</span><span>Model</span><span>Bawah</span><span>Atas</span></div>
             {predictions.map((item) => (
               <button type="button" className={`table-row ${selected.series === item.series ? "selected" : ""}`} onClick={() => chooseModel(item.series)} key={item.series}>
