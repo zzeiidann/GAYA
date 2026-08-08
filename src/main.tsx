@@ -280,9 +280,9 @@ function App() {
         <section className="story-lede">
           <div className="chapter-mark"><span>CHAPTER</span><b>01</b></div>
           <div className="heading-copy">
-            <span className="eyebrow">THE WEEKLY AUCTION STORY</span>
-            <h1>Satu seri. Satu model. Tiga garis yield.</h1>
-            <p>Pilih model FR atau PBS. Ikuti prediksi, batas bawah, dan batas atas dalam satu panel.</p>
+            <span className="eyebrow">AUCTION MODEL BOARD</span>
+            <h1>Model lelang FR &amp; PBS</h1>
+            <p>Estimasi WAY per seri dan batas prediksinya.</p>
           </div>
           <div className="desk-facts">
             <article><CalendarDays /><div><span>LELANG</span><b>{fullAuctionDate(auctionDate)}</b></div></article>
