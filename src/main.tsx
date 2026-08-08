@@ -1,25 +1,6 @@
 import { StrictMode, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
-import {
-  Activity,
-  ArrowDownRight,
-  ArrowUpRight,
-  BarChart3,
-  CalendarDays,
-  Check,
-  ChevronDown,
-  CircleHelp,
-  Clock3,
-  Database,
-  Gauge,
-  Info,
-  Layers3,
-  RefreshCw,
-  Search,
-  ShieldCheck,
-  Sparkles,
-  TrendingUp,
-} from "lucide-react";
+import { ArrowDownRight, ArrowUpRight, ChevronRight, Crosshair, Zap } from "lucide-react";
 import "./styles.css";
 
 type Family = "FR" | "PBS";
@@ -27,7 +8,7 @@ type Family = "FR" | "PBS";
 type Prediction = {
   series: string;
   family: Family;
-  modelVersion: string;
+  model: string;
   maturity: string;
   tenor: string;
   coupon: number;
@@ -37,368 +18,192 @@ type Prediction = {
   previous: number;
   r2: number;
   observations: number;
-  trend: "up" | "down";
   spark: number[];
 };
 
 const predictions: Prediction[] = [
-  {
-    series: "FR0103",
-    family: "FR",
-    modelVersion: "FR0103-v18",
-    maturity: "15 Jul 2035",
-    tenor: "8.9 tahun",
-    coupon: 6.75,
-    lower: 6.812,
-    point: 6.875,
-    upper: 6.941,
-    previous: 6.902,
-    r2: 0.86,
-    observations: 18,
-    trend: "down",
-    spark: [6.96, 6.92, 6.94, 6.89, 6.91, 6.87, 6.88],
-  },
-  {
-    series: "FR0106",
-    family: "FR",
-    modelVersion: "FR0106-v15",
-    maturity: "15 Agu 2040",
-    tenor: "14.0 tahun",
-    coupon: 7.13,
-    lower: 6.903,
-    point: 6.974,
-    upper: 7.048,
-    previous: 6.951,
-    r2: 0.82,
-    observations: 15,
-    trend: "up",
-    spark: [6.88, 6.91, 6.9, 6.94, 6.92, 6.96, 6.97],
-  },
-  {
-    series: "FR0107",
-    family: "FR",
-    modelVersion: "FR0107-v12",
-    maturity: "15 Agu 2045",
-    tenor: "19.0 tahun",
-    coupon: 7.13,
-    lower: 6.994,
-    point: 7.071,
-    upper: 7.151,
-    previous: 7.048,
-    r2: 0.8,
-    observations: 12,
-    trend: "up",
-    spark: [6.99, 7.01, 7.03, 7.0, 7.04, 7.06, 7.07],
-  },
-  {
-    series: "FR0102",
-    family: "FR",
-    modelVersion: "FR0102-v21",
-    maturity: "15 Jul 2054",
-    tenor: "27.9 tahun",
-    coupon: 6.88,
-    lower: 7.061,
-    point: 7.145,
-    upper: 7.232,
-    previous: 7.126,
-    r2: 0.84,
-    observations: 21,
-    trend: "up",
-    spark: [7.08, 7.09, 7.12, 7.1, 7.13, 7.14, 7.15],
-  },
-  {
-    series: "PBS030",
-    family: "PBS",
-    modelVersion: "PBS030-v17",
-    maturity: "15 Jul 2028",
-    tenor: "1.9 tahun",
-    coupon: 5.88,
-    lower: 6.412,
-    point: 6.468,
-    upper: 6.527,
-    previous: 6.491,
-    r2: 0.88,
-    observations: 17,
-    trend: "down",
-    spark: [6.55, 6.52, 6.53, 6.5, 6.49, 6.48, 6.47],
-  },
-  {
-    series: "PBS038",
-    family: "PBS",
-    modelVersion: "PBS038-v14",
-    maturity: "15 Des 2049",
-    tenor: "23.3 tahun",
-    coupon: 6.88,
-    lower: 7.018,
-    point: 7.098,
-    upper: 7.181,
-    previous: 7.077,
-    r2: 0.81,
-    observations: 14,
-    trend: "up",
-    spark: [7.03, 7.01, 7.05, 7.07, 7.06, 7.09, 7.1],
-  },
+  { series: "FR0103", family: "FR", model: "FR0103.v18", maturity: "15 JUL 2035", tenor: "8.9Y", coupon: 6.75, lower: 6.812, point: 6.875, upper: 6.941, previous: 6.902, r2: 0.86, observations: 18, spark: [6.96, 6.92, 6.94, 6.89, 6.91, 6.87, 6.88] },
+  { series: "FR0106", family: "FR", model: "FR0106.v15", maturity: "15 AUG 2040", tenor: "14.0Y", coupon: 7.125, lower: 6.903, point: 6.974, upper: 7.048, previous: 6.951, r2: 0.82, observations: 15, spark: [6.88, 6.91, 6.9, 6.94, 6.92, 6.96, 6.97] },
+  { series: "FR0107", family: "FR", model: "FR0107.v12", maturity: "15 AUG 2045", tenor: "19.0Y", coupon: 7.125, lower: 6.994, point: 7.071, upper: 7.151, previous: 7.048, r2: 0.8, observations: 12, spark: [6.99, 7.01, 7.03, 7.0, 7.04, 7.06, 7.07] },
+  { series: "FR0102", family: "FR", model: "FR0102.v21", maturity: "15 JUL 2054", tenor: "27.9Y", coupon: 6.875, lower: 7.061, point: 7.145, upper: 7.232, previous: 7.126, r2: 0.84, observations: 21, spark: [7.08, 7.09, 7.12, 7.1, 7.13, 7.14, 7.15] },
+  { series: "PBS030", family: "PBS", model: "PBS030.v17", maturity: "15 JUL 2028", tenor: "1.9Y", coupon: 5.875, lower: 6.412, point: 6.468, upper: 6.527, previous: 6.491, r2: 0.88, observations: 17, spark: [6.55, 6.52, 6.53, 6.5, 6.49, 6.48, 6.47] },
+  { series: "PBS038", family: "PBS", model: "PBS038.v14", maturity: "15 DEC 2049", tenor: "23.3Y", coupon: 6.875, lower: 7.018, point: 7.098, upper: 7.181, previous: 7.077, r2: 0.81, observations: 14, spark: [7.03, 7.01, 7.05, 7.07, 7.06, 7.09, 7.1] },
 ];
 
-function formatYield(value: number) {
-  return `${value.toFixed(3)}%`;
-}
+const marketTape = [
+  ["INDO 3M", "6.909", "−0.021", "down"],
+  ["SUN 10Y", "6.742", "+0.018", "up"],
+  ["USD / IDR", "16,245", "+35", "up"],
+  ["BI RATE", "5.25", "UNCH", "flat"],
+];
 
-function Sparkline({ values, trend }: { values: number[]; trend: "up" | "down" }) {
-  const min = Math.min(...values);
-  const max = Math.max(...values);
-  const spread = max - min || 1;
-  const points = values
-    .map((value, index) => {
-      const x = (index / (values.length - 1)) * 88 + 2;
-      const y = 30 - ((value - min) / spread) * 23;
-      return `${x},${y}`;
-    })
-    .join(" ");
-
+function RangeBar({ item }: { item: Prediction }) {
+  const domainMin = 6.3;
+  const domainMax = 7.35;
+  const pct = (value: number) => ((value - domainMin) / (domainMax - domainMin)) * 100;
   return (
-    <svg className={`sparkline ${trend}`} viewBox="0 0 92 36" aria-label="Tren prediksi">
-      <polyline points={points} fill="none" stroke="currentColor" strokeWidth="2.3" />
-      <circle
-        cx="90"
-        cy={30 - ((values[values.length - 1] - min) / spread) * 23}
-        r="3"
-        fill="currentColor"
-      />
-    </svg>
+    <div className="range-wrap">
+      <div className="range-labels"><span>{item.lower.toFixed(3)}</span><span>{item.upper.toFixed(3)}</span></div>
+      <div className="range-line">
+        <i style={{ left: `${pct(item.lower)}%`, width: `${pct(item.upper) - pct(item.lower)}%` }} />
+        <b style={{ left: `${pct(item.point)}%` }}><em>{item.point.toFixed(3)}</em></b>
+      </div>
+    </div>
   );
 }
 
-function RangePlot({ item }: { item: Prediction }) {
-  const min = 6.3;
-  const max = 7.35;
-  const position = (value: number) => `${((value - min) / (max - min)) * 100}%`;
-
+function HistoryChart({ item }: { item: Prediction }) {
+  const values = item.spark;
+  const min = Math.min(...values) - 0.02;
+  const max = Math.max(...values) + 0.02;
+  const points = values.map((value, index) => `${(index / (values.length - 1)) * 100},${88 - ((value - min) / (max - min)) * 66}`).join(" ");
   return (
-    <div className="range-plot" aria-label={`Rentang ${item.series}`}>
-      <div className="range-track" />
-      <div
-        className="range-span"
-        style={{ left: position(item.lower), width: `${((item.upper - item.lower) / (max - min)) * 100}%` }}
-      />
-      <div className="range-point" style={{ left: position(item.point) }}>
-        <span>{item.point.toFixed(3)}</span>
-      </div>
-    </div>
+    <svg className="history-chart" viewBox="0 0 100 100" preserveAspectRatio="none" aria-label={`Riwayat ${item.series}`}>
+      {[22, 44, 66, 88].map((y) => <line key={y} x1="0" x2="100" y1={y} y2={y} className="chart-grid" />)}
+      <polyline points={points} className="chart-shadow" />
+      <polyline points={points} className="chart-path" />
+      {values.map((value, index) => (
+        <circle key={`${value}-${index}`} cx={(index / (values.length - 1)) * 100} cy={88 - ((value - min) / (max - min)) * 66} r="1.25" />
+      ))}
+    </svg>
   );
 }
 
 function App() {
   const [family, setFamily] = useState<"ALL" | Family>("ALL");
   const [selectedSeries, setSelectedSeries] = useState("FR0103");
-  const [search, setSearch] = useState("");
-
-  const filtered = useMemo(
-    () =>
-      predictions.filter(
-        (item) =>
-          (family === "ALL" || item.family === family) &&
-          item.series.toLowerCase().includes(search.toLowerCase()),
-      ),
-    [family, search],
-  );
-
   const selected = predictions.find((item) => item.series === selectedSeries) ?? predictions[0];
+  const filtered = useMemo(() => predictions.filter((item) => family === "ALL" || item.family === family), [family]);
+  const change = selected.point - selected.previous;
 
   return (
-    <div className="app-shell">
-      <header className="topbar">
-        <div className="brand">
-          <div className="brand-mark" aria-hidden="true">
-            <span />
-            <span />
-            <span />
+    <div className="site">
+      <div className="market-tape" aria-label="Market tape">
+        <div className="tape-live"><i /> MARKET SNAPSHOT · DEMO</div>
+        {marketTape.map(([name, value, delta, direction]) => (
+          <div className="tape-quote" key={name}>
+            <span>{name}</span><b>{value}</b><em className={direction}>{delta}</em>
           </div>
-          <div>
-            <strong>GAYA</strong>
-            <small>Government Auction Yield Analytics</small>
-          </div>
-        </div>
+        ))}
+        <div className="tape-time">08 AUG 2026 / 16:37 WIB</div>
+      </div>
 
+      <header className="masthead">
+        <div className="edition">ISSUE 032 <span>/</span> FY 2026</div>
+        <div className="mast-title">GOVERNMENT AUCTION YIELD ANALYTICS</div>
         <nav>
-          <a className="active" href="#prediksi">Prediksi</a>
-          <a href="#models">Model</a>
-          <a href="#methodology">Metodologi</a>
+          <a href="#board">BOARD</a>
+          <a href="#dossier">MODEL LOG</a>
+          <a href="#method">METHOD</a>
         </nav>
-
-        <div className="top-actions">
-          <span className="status-pill"><i /> Sistem aktif</span>
-          <button className="icon-button" aria-label="Bantuan"><CircleHelp size={19} /></button>
-          <div className="avatar">RZ</div>
-        </div>
       </header>
 
       <main>
-        <section className="hero" id="prediksi">
-          <div>
-            <div className="eyebrow"><Sparkles size={14} /> AUCTION INTELLIGENCE</div>
-            <h1>Rentang yield, sebelum<br />lelang dimulai.</h1>
-            <p>
-              Prediksi Weighted Average Yield untuk setiap seri FR dan PBS,
-              diperbarui otomatis menggunakan model khusus per seri.
-            </p>
+        <section className="splash">
+          <img src="/market-courier-splash.webp" alt="Ilustrasi komik kurir pasar melintasi grafik obligasi" />
+          <div className="splash-shade" />
+          <div className="splash-copy">
+            <span className="slug"><Crosshair size={15} /> NEXT AUCTION / SUN</span>
+            <h1>BEFORE<br />THE <mark>HAMMER</mark><br />FALLS.</h1>
+            <p>Rentang Weighted Average Yield untuk tiap seri. Satu kode, satu model. Diterbitkan sebelum jendela lelang dibuka.</p>
+            <div className="splash-meta">
+              <div><small>AUCTION DATE</small><b>11 AUG ’26</b></div>
+              <div><small>WINDOW</small><b>09:00—11:00</b></div>
+              <div><small>ACTIVE MODELS</small><b>04 FR / 02 PBS</b></div>
+            </div>
           </div>
-
-          <div className="auction-card">
-            <div className="auction-card-head">
-              <span>Lelang berikutnya</span>
-              <span className="demo-label">DATA DEMO</span>
-            </div>
-            <div className="auction-date">
-              <div className="date-box"><b>11</b><small>AGU</small></div>
-              <div>
-                <strong>Selasa, 11 Agustus 2026</strong>
-                <span><Clock3 size={14} /> 09:00–11:00 WIB</span>
-              </div>
-            </div>
-            <div className="countdown">
-              <div><b>02</b><small>hari</small></div>
-              <i>:</i>
-              <div><b>16</b><small>jam</small></div>
-              <i>:</i>
-              <div><b>22</b><small>menit</small></div>
-            </div>
-            <div className="auction-foot"><RefreshCw size={13} /> Model terakhir diperbarui 4 Agu 2026, 13:18 WIB</div>
-          </div>
+          <div className="comic-stamp"><span>MODEL DROP</span><b>T−02</b><small>DAYS</small></div>
+          <div className="splash-caption">ARTWORK: MARKET COURIER / ORIGINAL CHARACTER</div>
         </section>
 
-        <section className="metric-grid" aria-label="Ringkasan model">
-          <article className="metric-card feature">
-            <div className="metric-icon"><TrendingUp size={20} /></div>
-            <div><span>Yield acuan 3 bulan</span><strong>6.909%</strong><small><ArrowDownRight size={13} /> 2,1 bps dari penutupan sebelumnya</small></div>
-          </article>
-          <article className="metric-card">
-            <div className="metric-icon purple"><Layers3 size={20} /></div>
-            <div><span>Model seri aktif</span><strong>6</strong><small>4 FR · 2 PBS pada lelang ini</small></div>
-          </article>
-          <article className="metric-card">
-            <div className="metric-icon amber"><Gauge size={20} /></div>
-            <div><span>R² median</span><strong>0.83</strong><small>Model-level out-of-sample</small></div>
-          </article>
-          <article className="metric-card">
-            <div className="metric-icon blue"><ShieldCheck size={20} /></div>
-            <div><span>Cakupan model</span><strong>FR &amp; PBS</strong><small>Seri lainnya tidak dimodelkan</small></div>
-          </article>
+        <section className="signal-strip">
+          <div className="signal-number">3M</div>
+          <div><span>REFERENCE YIELD</span><b>6.909%</b></div>
+          <div className="signal-move down"><ArrowDownRight /> −2.1 BPS <small>VS PREV CLOSE</small></div>
+          <p>Latest observation at or before 09:00 WIB. If unavailable, previous business-day close is used.</p>
+          <span className="source">SOURCE / INVESTING.COM</span>
         </section>
 
-        <section className="workspace">
-          <div className="prediction-panel">
-            <div className="section-head">
-              <div>
-                <span className="section-kicker">PREDIKSI LELANG</span>
-                <h2>Rentang per seri</h2>
-              </div>
-              <div className="toolbar">
-                <div className="search-box"><Search size={16} /><input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Cari seri" /></div>
-                <div className="segmented">
-                  {(["ALL", "FR", "PBS"] as const).map((item) => (
-                    <button key={item} onClick={() => setFamily(item)} className={family === item ? "active" : ""}>{item === "ALL" ? "Semua" : item}</button>
-                  ))}
-                </div>
-              </div>
+        <section className="board" id="board">
+          <div className="board-heading">
+            <div>
+              <span className="kicker">PREDICTION SHEET / 95% PI</span>
+              <h2>THE AUCTION BOARD</h2>
             </div>
-
-            <div className="table-head">
-              <span>Seri &amp; model</span>
-              <span>Tenor</span>
-              <span>Rentang prediksi (95%)</span>
-              <span>Prediksi</span>
-              <span>Tren</span>
-            </div>
-
-            <div className="prediction-list">
-              {filtered.map((item) => (
-                <button
-                  key={item.series}
-                  className={`prediction-row ${selected.series === item.series ? "selected" : ""}`}
-                  onClick={() => setSelectedSeries(item.series)}
-                >
-                  <span className="series-cell">
-                    <b>{item.series}</b>
-                    <small>{item.modelVersion}</small>
-                  </span>
-                  <span className="tenor-cell"><b>{item.tenor}</b><small>{item.maturity}</small></span>
-                  <span className="range-cell">
-                    <RangePlot item={item} />
-                    <small><i>{item.lower.toFixed(3)}</i><i>{item.upper.toFixed(3)}</i></small>
-                  </span>
-                  <span className="point-cell"><b>{formatYield(item.point)}</b><small>WAY estimasi</small></span>
-                  <span className="trend-cell"><Sparkline values={item.spark} trend={item.trend} /></span>
+            <div className="family-filter">
+              {(["ALL", "FR", "PBS"] as const).map((item) => (
+                <button className={family === item ? "active" : ""} onClick={() => setFamily(item)} key={item}>
+                  {item === "ALL" ? "ALL SERIES" : item}
                 </button>
               ))}
             </div>
-
-            <div className="table-note"><Info size={14} /> Klik seri untuk melihat detail model. Rentang menggunakan 95% prediction interval.</div>
           </div>
 
-          <aside className="model-panel" id="models">
-            <div className="model-panel-head">
-              <div><span>MODEL TERPILIH</span><h3>{selected.series}</h3></div>
-              <span className="healthy"><Check size={13} /> Sehat</span>
+          <div className="board-table">
+            <div className="board-header">
+              <span>SECURITY / MODEL</span><span>MATURITY / CPN</span><span>95% PREDICTION INTERVAL</span><span>WAY CALL</span><span>Δ LAST</span><span>FIT</span>
             </div>
-
-            <div className="model-hero">
-              <small>Prediksi WAY</small>
-              <strong>{formatYield(selected.point)}</strong>
-              <span className={selected.trend}><>{selected.trend === "up" ? <ArrowUpRight size={15} /> : <ArrowDownRight size={15} />}</> {Math.abs(selected.point - selected.previous).toFixed(3)}% vs. lelang lalu</span>
-            </div>
-
-            <div className="interval-box">
-              <div><span>Batas bawah</span><b>{formatYield(selected.lower)}</b></div>
-              <div className="interval-divider" />
-              <div><span>Batas atas</span><b>{formatYield(selected.upper)}</b></div>
-            </div>
-
-            <div className="detail-list">
-              <div><span>Model ID</span><b>{selected.modelVersion}</b></div>
-              <div><span>Kupon</span><b>{selected.coupon.toFixed(3)}%</b></div>
-              <div><span>Observasi seri</span><b>{selected.observations} lelang</b></div>
-              <div><span>Model R²</span><b>{selected.r2.toFixed(2)}</b></div>
-              <div><span>Terakhir dilatih</span><b>4 Agu 2026</b></div>
-            </div>
-
-            <div className="model-rule">
-              <Database size={17} />
-              <p><b>Satu seri, satu model.</b><br />{selected.series} tidak berbagi koefisien dengan seri FR atau PBS lainnya.</p>
-            </div>
-
-            <button className="model-button">Lihat riwayat akurasi <BarChart3 size={16} /></button>
-          </aside>
+            {filtered.map((item, index) => {
+              const delta = item.point - item.previous;
+              return (
+                <button className={`board-row ${selected.series === item.series ? "selected" : ""}`} onClick={() => setSelectedSeries(item.series)} key={item.series}>
+                  <span className="security">
+                    <i>{String(index + 1).padStart(2, "0")}</i>
+                    <span><b>{item.series}</b><small>{item.model}</small></span>
+                  </span>
+                  <span className="maturity"><b>{item.maturity}</b><small>{item.tenor} / {item.coupon.toFixed(3)}%</small></span>
+                  <RangeBar item={item} />
+                  <span className="way"><b>{item.point.toFixed(3)}%</b><small>MODEL TARGET</small></span>
+                  <span className={`delta ${delta >= 0 ? "up" : "down"}`}>{delta >= 0 ? <ArrowUpRight /> : <ArrowDownRight />}{Math.abs(delta * 100).toFixed(1)}bp</span>
+                  <span className="fit"><b>{item.r2.toFixed(2)}</b><small>R²</small></span>
+                </button>
+              );
+            })}
+          </div>
+          <div className="board-foot"><span>CLICK ANY ROW FOR THE SERIES DOSSIER</span><span>NO SPN / SPNS / PBSG MODELS</span></div>
         </section>
 
-        <section className="pipeline" id="methodology">
-          <div>
-            <span className="section-kicker">PEMBARUAN OTOMATIS</span>
-            <h2>Dari hasil lelang ke prediksi berikutnya.</h2>
+        <section className="dossier" id="dossier">
+          <div className="dossier-title">
+            <span>SERIES DOSSIER</span>
+            <h2>{selected.series}</h2>
+            <p>Model independen. Koefisien tidak dibagi dengan kode seri lain.</p>
+            <div className="model-id">MODEL ID <b>{selected.model}</b></div>
           </div>
-          <div className="pipeline-steps">
-            <div><i><CalendarDays size={18} /></i><span><b>01 · Scrape</b><small>Hasil lelang DJPPR</small></span></div>
-            <em />
-            <div><i><Database size={18} /></i><span><b>02 · Validasi</b><small>FR &amp; PBS saja</small></span></div>
-            <em />
-            <div><i><Activity size={18} /></i><span><b>03 · Retrain</b><small>Model setiap seri</small></span></div>
-            <em />
-            <div><i><RefreshCw size={18} /></i><span><b>04 · Publish</b><small>Rentang terbaru</small></span></div>
+          <div className="chart-panel">
+            <div className="chart-top"><span>ROLLING AUCTION CALL</span><span>7 OBSERVATIONS</span></div>
+            <HistoryChart item={selected} />
+            <div className="chart-axis"><span>T−6</span><span>T−5</span><span>T−4</span><span>T−3</span><span>T−2</span><span>T−1</span><span>NEXT</span></div>
+            <div className="chart-callout"><small>NEXT CALL</small><b>{selected.point.toFixed(3)}%</b></div>
           </div>
+          <div className="model-stats">
+            <div><span>LOWER / 95%</span><b>{selected.lower.toFixed(3)}%</b></div>
+            <div><span>UPPER / 95%</span><b>{selected.upper.toFixed(3)}%</b></div>
+            <div><span>MOVE / LAST</span><b className={change >= 0 ? "up" : "down"}>{change >= 0 ? "+" : "−"}{Math.abs(change * 100).toFixed(1)} BP</b></div>
+            <div><span>OBSERVATIONS</span><b>{selected.observations}</b></div>
+            <div><span>MODEL R²</span><b>{selected.r2.toFixed(2)}</b></div>
+            <div><span>LAST RETRAIN</span><b>04 AUG ’26</b></div>
+          </div>
+        </section>
+
+        <section className="method" id="method">
+          <div className="method-intro"><span>HOW IT MOVES</span><h2>ONE SERIES.<br /><i>ONE BRAIN.</i></h2></div>
+          <div className="method-flow">
+            {["SCRAPE DJPPR", "FILTER FR + PBS", "RETRAIN BY CODE", "PUBLISH RANGE"].map((label, index) => (
+              <div key={label}><b>0{index + 1}</b><span>{label}</span>{index < 3 && <ChevronRight />}</div>
+            ))}
+          </div>
+          <div className="method-note"><Zap /><p>The public layer receives only the final point estimate and interval. Training data, coefficients, and retraining pipeline stay private.</p></div>
         </section>
       </main>
 
       <footer>
-        <div className="brand footer-brand"><div className="brand-mark"><span /><span /><span /></div><strong>GAYA</strong></div>
-        <p>Hasil bersifat estimasi statistik, bukan rekomendasi investasi.</p>
-        <span>© 2026 GAYA · Data demo</span>
+        <span>GOVERNMENT AUCTION YIELD ANALYTICS</span>
+        <p>STATISTICAL ESTIMATE · NOT INVESTMENT ADVICE</p>
+        <span>DEMO / 2026</span>
       </footer>
     </div>
   );
 }
 
-createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-);
+createRoot(document.getElementById("root")!).render(<StrictMode><App /></StrictMode>);
