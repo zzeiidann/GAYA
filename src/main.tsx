@@ -1,6 +1,6 @@
 import { StrictMode, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { ArrowDownRight, ArrowUpRight, CalendarDays, Clock3, Layers3 } from "lucide-react";
+import { CalendarDays, Clock3, Layers3 } from "lucide-react";
 import "./styles.css";
 
 type Family = "FR" | "PBS";
@@ -15,16 +15,15 @@ type Prediction = {
   lower: number;
   point: number;
   upper: number;
-  previous: number;
 };
 
 const predictions: Prediction[] = [
-  { series: "PBS030", family: "PBS", maturity: "15 Jul 2028", tenor: "1,9 tahun", tenorYears: 1.9, coupon: 5.875, lower: 6.412, point: 6.468, upper: 6.527, previous: 6.491 },
-  { series: "FR0103", family: "FR", maturity: "15 Jul 2035", tenor: "8,9 tahun", tenorYears: 8.9, coupon: 6.75, lower: 6.812, point: 6.875, upper: 6.941, previous: 6.902 },
-  { series: "FR0106", family: "FR", maturity: "15 Agu 2040", tenor: "14,0 tahun", tenorYears: 14, coupon: 7.125, lower: 6.903, point: 6.974, upper: 7.048, previous: 6.951 },
-  { series: "FR0107", family: "FR", maturity: "15 Agu 2045", tenor: "19,0 tahun", tenorYears: 19, coupon: 7.125, lower: 6.994, point: 7.071, upper: 7.151, previous: 7.048 },
-  { series: "PBS038", family: "PBS", maturity: "15 Des 2049", tenor: "23,3 tahun", tenorYears: 23.3, coupon: 6.875, lower: 7.018, point: 7.098, upper: 7.181, previous: 7.077 },
-  { series: "FR0102", family: "FR", maturity: "15 Jul 2054", tenor: "27,9 tahun", tenorYears: 27.9, coupon: 6.875, lower: 7.061, point: 7.145, upper: 7.232, previous: 7.126 },
+  { series: "PBS030", family: "PBS", maturity: "15 Jul 2028", tenor: "1,9 tahun", tenorYears: 1.9, coupon: 5.875, lower: 6.412, point: 6.468, upper: 6.527 },
+  { series: "FR0103", family: "FR", maturity: "15 Jul 2035", tenor: "8,9 tahun", tenorYears: 8.9, coupon: 6.75, lower: 6.812, point: 6.875, upper: 6.941 },
+  { series: "FR0106", family: "FR", maturity: "15 Agu 2040", tenor: "14,0 tahun", tenorYears: 14, coupon: 7.125, lower: 6.903, point: 6.974, upper: 7.048 },
+  { series: "FR0107", family: "FR", maturity: "15 Agu 2045", tenor: "19,0 tahun", tenorYears: 19, coupon: 7.125, lower: 6.994, point: 7.071, upper: 7.151 },
+  { series: "PBS038", family: "PBS", maturity: "15 Des 2049", tenor: "23,3 tahun", tenorYears: 23.3, coupon: 6.875, lower: 7.018, point: 7.098, upper: 7.181 },
+  { series: "FR0102", family: "FR", maturity: "15 Jul 2054", tenor: "27,9 tahun", tenorYears: 27.9, coupon: 6.875, lower: 7.061, point: 7.145, upper: 7.232 },
 ];
 
 function BondDoodle() {
@@ -64,7 +63,7 @@ function YieldCurveChart({ selectedSeries, onSelect }: { selectedSeries: string;
   const curve = predictions.map((item) => `${x(item.tenorYears)},${y(item.point)}`).join(" ");
 
   return (
-    <svg className="yield-chart" viewBox={`0 0 ${width} ${height}`} role="img" aria-label="Kurva prediksi yield dan rentang 95 persen">
+    <svg className="yield-chart" viewBox={`0 0 ${width} ${height}`} role="img" aria-label="Kurva prediksi yield berdasarkan tenor">
       {yTicks.map((tick) => (
         <g key={tick}>
           <line x1={left} x2={width - right} y1={y(tick)} y2={y(tick)} className="chart-grid" />
@@ -86,9 +85,9 @@ function YieldCurveChart({ selectedSeries, onSelect }: { selectedSeries: string;
         const selected = selectedSeries === item.series;
         return (
           <g className={`chart-security ${item.family.toLowerCase()} ${selected ? "selected" : ""}`} key={item.series} onClick={() => onSelect(item.series)} role="button" tabIndex={0}>
-            <line x1={px} x2={px} y1={y(item.upper)} y2={y(item.lower)} className="interval-line" />
-            <line x1={px - 8} x2={px + 8} y1={y(item.upper)} y2={y(item.upper)} className="interval-cap" />
-            <line x1={px - 8} x2={px + 8} y1={y(item.lower)} y2={y(item.lower)} className="interval-cap" />
+            <line x1={px} x2={px} y1={y(item.upper)} y2={y(item.lower)} className="bound-line" />
+            <line x1={px - 8} x2={px + 8} y1={y(item.upper)} y2={y(item.upper)} className="bound-cap" />
+            <line x1={px - 8} x2={px + 8} y1={y(item.lower)} y2={y(item.lower)} className="bound-cap" />
             <circle cx={px} cy={y(item.point)} r={selected ? 9 : 7} className="yield-point" />
             <circle cx={px} cy={y(item.point)} r="3" className="yield-core" />
             <text x={px} y={y(item.upper) - 13} textAnchor="middle" className="security-label">{item.series}</text>
@@ -102,7 +101,6 @@ function YieldCurveChart({ selectedSeries, onSelect }: { selectedSeries: string;
 function App() {
   const [selectedSeries, setSelectedSeries] = useState("FR0103");
   const selected = predictions.find((item) => item.series === selectedSeries) ?? predictions[0];
-  const change = selected.point - selected.previous;
 
   return (
     <div className="app">
@@ -116,7 +114,7 @@ function App() {
         <section className="intro">
           <div className="intro-copy">
             <span className="eyebrow">LELANG OBLIGASI PEMERINTAH</span>
-            <h1>Dashboard prediksi<br />yield lelang</h1>
+            <h1>Dashboard prediksi yield lelang</h1>
             <p>Estimasi Weighted Average Yield untuk seri FR dan PBS pada lelang berikutnya.</p>
           </div>
           <BondDoodle />
@@ -136,40 +134,25 @@ function App() {
         <section className="dashboard-grid">
           <article className="chart-card">
             <div className="panel-head">
-              <div><span>LELANG 11 AGUSTUS 2026</span><h2>Kurva prediksi yield</h2></div>
-              <div className="chart-legend"><span><i className="fr-key" />FR</span><span><i className="pbs-key" />PBS</span><span><i className="interval-key" />Rentang 95%</span></div>
+              <div><span>LELANG 11 AGUSTUS 2026</span><h2>Prediksi yield berdasarkan tenor</h2></div>
+              <div className="chart-legend"><span><i className="fr-key" />FR</span><span><i className="pbs-key" />PBS</span></div>
+              <div className="selected-quote"><span>{selected.series}</span><b>{selected.point.toFixed(3)}%</b></div>
             </div>
             <YieldCurveChart selectedSeries={selected.series} onSelect={setSelectedSeries} />
-            <div className="chart-note">Rentang 95% ditampilkan sebagai garis vertikal pada setiap seri.</div>
           </article>
 
-          <aside className="series-panel">
-            <div className="panel-stripe">SERI TERPILIH</div>
-            <div className="series-title"><span>{selected.family}</span><h2>{selected.series}</h2><small>{selected.tenor} · {selected.maturity}</small></div>
-            <div className="primary-quote"><span>Prediksi WAY</span><b>{selected.point.toFixed(3)}%</b></div>
-            <div className="range-values">
-              <div><span>Batas bawah</span><b>{selected.lower.toFixed(3)}%</b></div>
-              <div><span>Batas atas</span><b>{selected.upper.toFixed(3)}%</b></div>
-            </div>
-            <div className="coupon"><span>Kupon</span><b>{selected.coupon.toFixed(3)}%</b></div>
-            <div className={`movement ${change >= 0 ? "up" : "down"}`}>{change >= 0 ? <ArrowUpRight /> : <ArrowDownRight />}<b>{Math.abs(change * 100).toFixed(1)} bp</b><span>vs. lelang sebelumnya</span></div>
-            <p className="private-note">Model dihitung terpisah untuk setiap kode seri.</p>
-          </aside>
-        </section>
-
-        <section className="table-panel">
-          <div className="table-title"><h2>Ringkasan prediksi</h2><span>Klik baris untuk memilih seri</span></div>
-          <div className="table-head"><span>Seri</span><span>Tenor</span><span>Jatuh tempo</span><span>Kupon</span><span>Prediksi WAY</span><span>Rentang 95%</span><span>Perubahan</span></div>
-          {predictions.map((item) => {
-            const delta = item.point - item.previous;
-            return (
+          <aside className="table-panel">
+            <div className="table-title"><div><span>HASIL MODEL</span><h2>Prediksi per seri</h2></div><small>Klik untuk pilih</small></div>
+            <div className="table-head"><span>Seri</span><span>Prediksi</span><span>Batas bawah</span><span>Batas atas</span></div>
+            {predictions.map((item) => (
               <button className={`table-row ${selected.series === item.series ? "selected" : ""}`} onClick={() => setSelectedSeries(item.series)} key={item.series}>
-                <span className="series-code"><i className={item.family.toLowerCase()} />{item.series}</span>
-                <span>{item.tenor}</span><span>{item.maturity}</span><span className="number">{item.coupon.toFixed(3)}%</span><b className="number">{item.point.toFixed(3)}%</b><span className="number">{item.lower.toFixed(3)}–{item.upper.toFixed(3)}%</span>
-                <span className={`delta ${delta >= 0 ? "up" : "down"}`}>{delta >= 0 ? "▲" : "▼"} {Math.abs(delta * 100).toFixed(1)} bp</span>
+                <span className="series-code"><i className={item.family.toLowerCase()} /><span><b>{item.series}</b><small>{item.tenor} · {item.coupon.toFixed(3)}%</small></span></span>
+                <b className="number prediction-number">{item.point.toFixed(3)}%</b>
+                <span className="number">{item.lower.toFixed(3)}%</span>
+                <span className="number">{item.upper.toFixed(3)}%</span>
               </button>
-            );
-          })}
+            ))}
+          </aside>
         </section>
       </main>
 
