@@ -38,7 +38,7 @@ Auction coverage and realized yields are anchored to announcements published by 
 </p>
 
 <p align="center">
-  <sub>Official DJPPR auction-result content, 4 August 2026. Documentation snapshot rendered from the content published by DJPPR; click the image to open the original announcement.</sub>
+  <sub>Direct screenshot of the official DJPPR auction-result announcement, captured in Mozilla Firefox on 9 August 2026. Click the image to open the source page.</sub>
 </p>
 
 | Official publication | Role in GAYA |
