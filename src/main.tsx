@@ -1,6 +1,6 @@
 import { StrictMode, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { ArrowDownRight, ArrowUpRight, ChevronRight, Crosshair, Zap } from "lucide-react";
+import { ArrowDownRight, ArrowUpRight, ChevronRight, Zap } from "lucide-react";
 import "./styles.css";
 
 type Family = "FR" | "PBS";
@@ -28,13 +28,6 @@ const predictions: Prediction[] = [
   { series: "FR0102", family: "FR", model: "FR0102.v21", maturity: "15 JUL 2054", tenor: "27.9Y", coupon: 6.875, lower: 7.061, point: 7.145, upper: 7.232, previous: 7.126, r2: 0.84, observations: 21, spark: [7.08, 7.09, 7.12, 7.1, 7.13, 7.14, 7.15] },
   { series: "PBS030", family: "PBS", model: "PBS030.v17", maturity: "15 JUL 2028", tenor: "1.9Y", coupon: 5.875, lower: 6.412, point: 6.468, upper: 6.527, previous: 6.491, r2: 0.88, observations: 17, spark: [6.55, 6.52, 6.53, 6.5, 6.49, 6.48, 6.47] },
   { series: "PBS038", family: "PBS", model: "PBS038.v14", maturity: "15 DEC 2049", tenor: "23.3Y", coupon: 6.875, lower: 7.018, point: 7.098, upper: 7.181, previous: 7.077, r2: 0.81, observations: 14, spark: [7.03, 7.01, 7.05, 7.07, 7.06, 7.09, 7.1] },
-];
-
-const marketTape = [
-  ["INDO 3M", "6.909", "−0.021", "down"],
-  ["SUN 10Y", "6.742", "+0.018", "up"],
-  ["USD / IDR", "16,245", "+35", "up"],
-  ["BI RATE", "5.25", "UNCH", "flat"],
 ];
 
 function RangeBar({ item }: { item: Prediction }) {
@@ -78,23 +71,13 @@ function App() {
 
   return (
     <div className="site">
-      <div className="market-tape" aria-label="Market tape">
-        <div className="tape-live"><i /> MARKET SNAPSHOT · DEMO</div>
-        {marketTape.map(([name, value, delta, direction]) => (
-          <div className="tape-quote" key={name}>
-            <span>{name}</span><b>{value}</b><em className={direction}>{delta}</em>
-          </div>
-        ))}
-        <div className="tape-time">08 AUG 2026 / 16:37 WIB</div>
-      </div>
-
       <header className="masthead">
-        <div className="edition">ISSUE 032 <span>/</span> FY 2026</div>
-        <div className="mast-title">GOVERNMENT AUCTION YIELD ANALYTICS</div>
+        <div className="mast-title">Prediksi Lelang Obligasi Pemerintah</div>
+        <div className="edition"><span>Data contoh</span> · Belum terhubung ke pipeline</div>
         <nav>
-          <a href="#board">BOARD</a>
-          <a href="#dossier">MODEL LOG</a>
-          <a href="#method">METHOD</a>
+          <a href="#board">Prediksi</a>
+          <a href="#dossier">Detail model</a>
+          <a href="#method">Metode</a>
         </nav>
       </header>
 
@@ -103,37 +86,35 @@ function App() {
           <img src="/market-courier-splash.webp" alt="Ilustrasi komik kurir pasar melintasi grafik obligasi" />
           <div className="splash-shade" />
           <div className="splash-copy">
-            <span className="slug"><Crosshair size={15} /> NEXT AUCTION / SUN</span>
-            <h1>BEFORE<br />THE <mark>HAMMER</mark><br />FALLS.</h1>
-            <p>Rentang Weighted Average Yield untuk tiap seri. Satu kode, satu model. Diterbitkan sebelum jendela lelang dibuka.</p>
+            <span className="slug">LELANG SUN BERIKUTNYA</span>
+            <h1>Prediksi yield<br />per seri obligasi</h1>
+            <p>Estimasi Weighted Average Yield beserta rentang prediksi untuk seri FR dan PBS yang ditawarkan pada lelang berikutnya.</p>
             <div className="splash-meta">
-              <div><small>AUCTION DATE</small><b>11 AUG ’26</b></div>
-              <div><small>WINDOW</small><b>09:00—11:00</b></div>
-              <div><small>ACTIVE MODELS</small><b>04 FR / 02 PBS</b></div>
+              <div><small>TANGGAL LELANG</small><b>11 AGU 2026</b></div>
+              <div><small>WAKTU PENAWARAN</small><b>09:00–11:00 WIB</b></div>
+              <div><small>SERI DIMODELKAN</small><b>4 FR · 2 PBS</b></div>
             </div>
           </div>
-          <div className="comic-stamp"><span>MODEL DROP</span><b>T−02</b><small>DAYS</small></div>
-          <div className="splash-caption">ARTWORK: MARKET COURIER / ORIGINAL CHARACTER</div>
+          <div className="comic-stamp"><span>LELANG</span><b>11</b><small>AGUSTUS</small></div>
         </section>
 
         <section className="signal-strip">
           <div className="signal-number">3M</div>
-          <div><span>REFERENCE YIELD</span><b>6.909%</b></div>
-          <div className="signal-move down"><ArrowDownRight /> −2.1 BPS <small>VS PREV CLOSE</small></div>
-          <p>Latest observation at or before 09:00 WIB. If unavailable, previous business-day close is used.</p>
-          <span className="source">SOURCE / INVESTING.COM</span>
+          <div><span>YIELD ACUAN MODEL</span><b>6.909%</b></div>
+          <p>Indonesia 3 bulan, observasi terakhir sebelum pukul 09:00 WIB. Jika belum tersedia, sistem menggunakan penutupan hari kerja sebelumnya.</p>
+          <span className="source">DIPERBARUI 8 AGU 2026</span>
         </section>
 
         <section className="board" id="board">
           <div className="board-heading">
             <div>
-              <span className="kicker">PREDICTION SHEET / 95% PI</span>
-              <h2>THE AUCTION BOARD</h2>
+              <span className="kicker">RENTANG PREDIKSI 95%</span>
+              <h2>Prediksi per seri</h2>
             </div>
             <div className="family-filter">
               {(["ALL", "FR", "PBS"] as const).map((item) => (
                 <button className={family === item ? "active" : ""} onClick={() => setFamily(item)} key={item}>
-                  {item === "ALL" ? "ALL SERIES" : item}
+                  {item === "ALL" ? "Semua seri" : item}
                 </button>
               ))}
             </div>
@@ -141,7 +122,7 @@ function App() {
 
           <div className="board-table">
             <div className="board-header">
-              <span>SECURITY / MODEL</span><span>MATURITY / CPN</span><span>95% PREDICTION INTERVAL</span><span>WAY CALL</span><span>Δ LAST</span><span>FIT</span>
+              <span>SERI / MODEL</span><span>JATUH TEMPO / KUPON</span><span>RENTANG PREDIKSI 95%</span><span>PREDIKSI WAY</span><span>Δ LELANG LALU</span><span>R²</span>
             </div>
             {filtered.map((item, index) => {
               const delta = item.point - item.previous;
@@ -153,54 +134,54 @@ function App() {
                   </span>
                   <span className="maturity"><b>{item.maturity}</b><small>{item.tenor} / {item.coupon.toFixed(3)}%</small></span>
                   <RangeBar item={item} />
-                  <span className="way"><b>{item.point.toFixed(3)}%</b><small>MODEL TARGET</small></span>
+                  <span className="way"><b>{item.point.toFixed(3)}%</b><small>ESTIMASI MODEL</small></span>
                   <span className={`delta ${delta >= 0 ? "up" : "down"}`}>{delta >= 0 ? <ArrowUpRight /> : <ArrowDownRight />}{Math.abs(delta * 100).toFixed(1)}bp</span>
                   <span className="fit"><b>{item.r2.toFixed(2)}</b><small>R²</small></span>
                 </button>
               );
             })}
           </div>
-          <div className="board-foot"><span>CLICK ANY ROW FOR THE SERIES DOSSIER</span><span>NO SPN / SPNS / PBSG MODELS</span></div>
+          <div className="board-foot"><span>Pilih seri untuk melihat detail model</span><span>Hanya FR dan PBS</span></div>
         </section>
 
         <section className="dossier" id="dossier">
           <div className="dossier-title">
-            <span>SERIES DOSSIER</span>
+            <span>DETAIL MODEL SERI</span>
             <h2>{selected.series}</h2>
             <p>Model independen. Koefisien tidak dibagi dengan kode seri lain.</p>
-            <div className="model-id">MODEL ID <b>{selected.model}</b></div>
+            <div className="model-id">ID MODEL <b>{selected.model}</b></div>
           </div>
           <div className="chart-panel">
-            <div className="chart-top"><span>ROLLING AUCTION CALL</span><span>7 OBSERVATIONS</span></div>
+            <div className="chart-top"><span>RIWAYAT PREDIKSI LELANG</span><span>7 OBSERVASI</span></div>
             <HistoryChart item={selected} />
             <div className="chart-axis"><span>T−6</span><span>T−5</span><span>T−4</span><span>T−3</span><span>T−2</span><span>T−1</span><span>NEXT</span></div>
-            <div className="chart-callout"><small>NEXT CALL</small><b>{selected.point.toFixed(3)}%</b></div>
+            <div className="chart-callout"><small>PREDIKSI BERIKUTNYA</small><b>{selected.point.toFixed(3)}%</b></div>
           </div>
           <div className="model-stats">
-            <div><span>LOWER / 95%</span><b>{selected.lower.toFixed(3)}%</b></div>
-            <div><span>UPPER / 95%</span><b>{selected.upper.toFixed(3)}%</b></div>
-            <div><span>MOVE / LAST</span><b className={change >= 0 ? "up" : "down"}>{change >= 0 ? "+" : "−"}{Math.abs(change * 100).toFixed(1)} BP</b></div>
-            <div><span>OBSERVATIONS</span><b>{selected.observations}</b></div>
+            <div><span>BATAS BAWAH 95%</span><b>{selected.lower.toFixed(3)}%</b></div>
+            <div><span>BATAS ATAS 95%</span><b>{selected.upper.toFixed(3)}%</b></div>
+            <div><span>PERUBAHAN</span><b className={change >= 0 ? "up" : "down"}>{change >= 0 ? "+" : "−"}{Math.abs(change * 100).toFixed(1)} BP</b></div>
+            <div><span>JUMLAH OBSERVASI</span><b>{selected.observations}</b></div>
             <div><span>MODEL R²</span><b>{selected.r2.toFixed(2)}</b></div>
-            <div><span>LAST RETRAIN</span><b>04 AUG ’26</b></div>
+            <div><span>TERAKHIR DILATIH</span><b>4 AGU 2026</b></div>
           </div>
         </section>
 
         <section className="method" id="method">
-          <div className="method-intro"><span>HOW IT MOVES</span><h2>ONE SERIES.<br /><i>ONE BRAIN.</i></h2></div>
+          <div className="method-intro"><span>PEMBARUAN MODEL</span><h2>Satu seri,<br /><i>satu model.</i></h2></div>
           <div className="method-flow">
-            {["SCRAPE DJPPR", "FILTER FR + PBS", "RETRAIN BY CODE", "PUBLISH RANGE"].map((label, index) => (
+            {["Ambil hasil DJPPR", "Pilih seri FR + PBS", "Latih per kode seri", "Terbitkan rentang"].map((label, index) => (
               <div key={label}><b>0{index + 1}</b><span>{label}</span>{index < 3 && <ChevronRight />}</div>
             ))}
           </div>
-          <div className="method-note"><Zap /><p>The public layer receives only the final point estimate and interval. Training data, coefficients, and retraining pipeline stay private.</p></div>
+          <div className="method-note"><Zap /><p>Website publik hanya menerima hasil estimasi dan rentangnya. Dataset, koefisien, dan proses pelatihan tetap berada di repositori privat.</p></div>
         </section>
       </main>
 
       <footer>
-        <span>GOVERNMENT AUCTION YIELD ANALYTICS</span>
-        <p>STATISTICAL ESTIMATE · NOT INVESTMENT ADVICE</p>
-        <span>DEMO / 2026</span>
+        <span>Prediksi Lelang Obligasi Pemerintah</span>
+        <p>Estimasi statistik, bukan rekomendasi investasi</p>
+        <span>Data contoh</span>
       </footer>
     </div>
   );
