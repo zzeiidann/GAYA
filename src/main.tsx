@@ -129,48 +129,44 @@ function App() {
 
   return (
     <div className="app">
-      <header className="market-header">
-        <div className="header-main">
-          <div className="brand-lockup">
-            <div className="brand">GAYA<span>///</span></div>
-            <div className="brand-copy"><b>GOVERNMENT AUCTION</b><span>YIELD ANALYTICS</span></div>
-          </div>
-          <div className="desk-title">
-            <span>SOVEREIGN BOND DESK</span>
-            <b>INDONESIA · FR / PBS</b>
-          </div>
-          <div className="auction-sticker">
-            <small>NEXT AUCTION</small>
-            <b>11 AUG ’26</b>
-            <span>09:00—11:00 WIB</span>
-          </div>
-          <div className="market-live"><i /><span>MODEL BOARD</span><b>ONLINE</b><small>Data contoh · 08 AUG 2026</small></div>
+      <header className="comic-masthead">
+        <div className="issue-rail">
+          <b>WEEKLY MARKET COMIC</b>
+          <span>ISSUE 08.26</span>
+          <span>JAKARTA / SATURDAY EDITION</span>
         </div>
-        <div className="ticker-bar">
-          <b>AUCTION WIRE</b>
-          <span>6 SERI DITAWARKAN</span><i />
-          <span>FR &amp; PBS ONLY</span><i />
-          <span>MODEL DIPISAH PER KODE SERI</span><i />
-          <strong>WEEKLY MODEL DROP ↗</strong>
+        <div className="cover-brand">GAYA</div>
+        <div className="cover-title">
+          <span>THE</span>
+          <b>YIELD<br />FILES</b>
+          <small>Government Auction Yield Analytics</small>
         </div>
+        <div className="cover-slug">FR + PBS<br /><b>MODEL DESK</b></div>
+        <div className="auction-burst">
+          <small>NEXT DROP</small>
+          <b>11 AUG</b>
+          <span>09:00—11:00 WIB</span>
+        </div>
+        <div className="cover-status"><i /><span>MODEL BOARD ONLINE</span><small>DATA CONTOH · 08 AUG 2026</small></div>
       </header>
 
       <main>
-        <section className="dashboard-heading">
+        <section className="story-lede">
+          <div className="chapter-mark"><span>CHAPTER</span><b>01</b></div>
           <div className="heading-copy">
-            <span className="eyebrow">AUCTION MODEL MONITOR</span>
-            <h1>Satu seri. Satu model yield.</h1>
-            <p>Pilih seri FR atau PBS, lalu baca pergerakan prediksi model beserta batas bawah dan batas atasnya.</p>
+            <span className="eyebrow">THE WEEKLY AUCTION STORY</span>
+            <h1>Satu seri. Satu model. Tiga garis yield.</h1>
+            <p>Pilih model FR atau PBS. Ikuti prediksi, batas bawah, dan batas atas dalam satu panel.</p>
           </div>
           <div className="desk-facts">
-            <article><CalendarDays /><div><span>TANGGAL LELANG</span><b>11 Agustus 2026</b></div></article>
-            <article><Clock3 /><div><span>PENAWARAN</span><b>09:00—11:00 WIB</b></div></article>
-            <article><Layers3 /><div><span>MODEL AKTIF</span><b>6 seri</b></div></article>
+            <article><CalendarDays /><div><span>LELANG</span><b>11 AGU 2026</b></div></article>
+            <article><Clock3 /><div><span>WINDOW</span><b>09:00—11:00</b></div></article>
+            <article><Layers3 /><div><span>CAST</span><b>6 MODEL</b></div></article>
           </div>
         </section>
 
         <section className="dashboard-grid">
-          <article className="chart-card">
+          <article className="chart-card" data-panel="01">
             <div className="panel-head">
               <div className="model-selector">
                 <label id="series-model-label"><Activity /> MODEL SERI</label>
@@ -228,8 +224,8 @@ function App() {
             <ModelChart item={selected} />
           </article>
 
-          <aside className="table-panel">
-            <div className="table-title"><div><span>MODEL DIRECTORY</span><h2>Pilih model seri</h2></div><small>6 ACTIVE</small></div>
+          <aside className="table-panel" data-panel="02">
+            <div className="table-title"><div><span>THE MODEL CAST</span><h2>Pilih seri cerita</h2></div><small>6 ACTIVE</small></div>
             <div className="table-head"><span>Seri</span><span>Model</span><span>Bawah</span><span>Atas</span></div>
             {predictions.map((item) => (
               <button className={`table-row ${selected.series === item.series ? "selected" : ""}`} onClick={() => chooseModel(item.series)} key={item.series}>
