@@ -23,7 +23,7 @@
   <text x="29" y="210" fill="#fffaf0" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="13" font-weight="900" letter-spacing="2.2">GOVERNMENT AUCTION YIELD ANALYTICS</text>
 
   <text x="464" y="92" fill="#e63d2f" font-family="Georgia, serif" font-size="20" font-weight="700" font-style="italic">THE</text>
-  <text x="462" y="139" fill="#121318" font-family="Arial Black, Impact, sans-serif" font-size="52" font-weight="900" letter-spacing="-2">YIELD FILES</text>
+  <text x="462" y="139" fill="#121318" font-family="Arial Black, Impact, sans-serif" font-size="52" font-weight="900" letter-spacing="-2">YIELD DESK</text>
   <line x1="463" y1="154" x2="805" y2="154" stroke="#121318" stroke-width="5"/>
   <text x="463" y="181" fill="#121318" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="13" font-weight="800" letter-spacing="1.2">ACTUAL WAY · MODEL · LOWER · UPPER</text>
   <rect x="462" y="199" width="104" height="29" fill="#121318"/>

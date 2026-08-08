@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="250" viewBox="0 0 1200 250" role="img" aria-labelledby="title desc">
+  <title id="title">GAYA weekly publication flow</title>
+  <desc id="desc">DJPPR auction data and the market snapshot are processed by the private model pipeline, sanitized to JSON, and deployed to the public Cloudflare dashboard.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#121318"/>
+    </marker>
+    <pattern id="dots" width="10" height="10" patternUnits="userSpaceOnUse">
+      <circle cx="1.5" cy="1.5" r="1" fill="#121318" opacity=".12"/>
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="250" fill="#fffaf0"/>
+  <rect width="1200" height="250" fill="url(#dots)"/>
+  <rect x="1" y="1" width="1198" height="248" fill="none" stroke="#121318" stroke-width="2"/>
+
+  <line x1="267" y1="118" x2="329" y2="118" stroke="#121318" stroke-width="4" marker-end="url(#arrow)"/>
+  <line x1="568" y1="118" x2="630" y2="118" stroke="#121318" stroke-width="4" marker-end="url(#arrow)"/>
+  <line x1="869" y1="118" x2="931" y2="118" stroke="#121318" stroke-width="4" marker-end="url(#arrow)"/>
+
+  <g>
+    <rect x="32" y="53" width="235" height="130" fill="#fffaf0" stroke="#121318" stroke-width="4"/>
+    <rect x="32" y="53" width="235" height="14" fill="#e63d2f"/>
+    <text x="52" y="96" fill="#e63d2f" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="12" font-weight="900" letter-spacing="1">SOURCE</text>
+    <text x="52" y="130" fill="#121318" font-family="Arial Black, Impact, sans-serif" font-size="19" font-weight="900">DJPPR AUCTION</text>
+    <text x="52" y="157" fill="#514d47" font-family="Arial, sans-serif" font-size="14" font-weight="700">Plan + awarded results</text>
+  </g>
+
+  <g>
+    <rect x="333" y="53" width="235" height="130" fill="#121318" stroke="#121318" stroke-width="4"/>
+    <rect x="333" y="53" width="235" height="14" fill="#edbd48"/>
+    <text x="353" y="96" fill="#edbd48" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="12" font-weight="900" letter-spacing="1">PRIVATE</text>
+    <text x="353" y="130" fill="#fffaf0" font-family="Arial Black, Impact, sans-serif" font-size="19" font-weight="900">MODEL PIPELINE</text>
+    <text x="353" y="157" fill="#c8c1b4" font-family="Arial, sans-serif" font-size="14" font-weight="700">Validate + fit per series</text>
+  </g>
+
+  <g>
+    <rect x="634" y="53" width="235" height="130" fill="#fffaf0" stroke="#121318" stroke-width="4"/>
+    <rect x="634" y="53" width="235" height="14" fill="#167f9e"/>
+    <text x="654" y="96" fill="#167f9e" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="12" font-weight="900" letter-spacing="1">PUBLIC CONTRACT</text>
+    <text x="654" y="130" fill="#121318" font-family="Arial Black, Impact, sans-serif" font-size="19" font-weight="900">PREDICTIONS.JSON</text>
+    <text x="654" y="157" fill="#514d47" font-family="Arial, sans-serif" font-size="14" font-weight="700">Actual + bounds only</text>
+  </g>
+
+  <g>
+    <rect x="935" y="53" width="235" height="130" fill="#edbd48" stroke="#121318" stroke-width="4"/>
+    <rect x="935" y="53" width="235" height="14" fill="#e63d2f"/>
+    <text x="955" y="96" fill="#e63d2f" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="12" font-weight="900" letter-spacing="1">DELIVERY</text>
+    <text x="955" y="130" fill="#121318" font-family="Arial Black, Impact, sans-serif" font-size="19" font-weight="900">CLOUDFLARE</text>
+    <text x="955" y="157" fill="#3f3b34" font-family="Arial, sans-serif" font-size="14" font-weight="700">Automatic production build</text>
+  </g>
+
+  <rect x="32" y="202" width="260" height="28" fill="#e63d2f"/>
+  <rect x="302" y="202" width="289" height="28" fill="#167f9e"/>
+  <rect x="601" y="202" width="569" height="28" fill="#121318"/>
+  <text x="162" y="221" text-anchor="middle" fill="#fffaf0" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="11" font-weight="900">MONDAY · 08:15 WIB</text>
+  <text x="446" y="221" text-anchor="middle" fill="#fffaf0" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="11" font-weight="900">TUESDAY · 09:05 WIB</text>
+  <text x="885" y="221" text-anchor="middle" fill="#edbd48" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="11" font-weight="900">PUSH TO MAIN → AUTOMATIC DEPLOY</text>
+</svg>
