@@ -119,7 +119,13 @@ function ModelChart({ item }: { item: Prediction }) {
 
 function App() {
   const [selectedSeries, setSelectedSeries] = useState("FR0103");
+  const [modelMenuOpen, setModelMenuOpen] = useState(false);
   const selected = predictions.find((item) => item.series === selectedSeries) ?? predictions[0];
+
+  const chooseModel = (series: string) => {
+    setSelectedSeries(series);
+    setModelMenuOpen(false);
+  };
 
   return (
     <div className="app">
@@ -167,12 +173,40 @@ function App() {
           <article className="chart-card">
             <div className="panel-head">
               <div className="model-selector">
-                <label htmlFor="series-model"><Activity /> MODEL SERI</label>
-                <div className="select-shell">
-                  <select id="series-model" value={selected.series} onChange={(event) => setSelectedSeries(event.target.value)}>
-                    {predictions.map((item) => <option value={item.series} key={item.series}>{item.series} · {item.family}</option>)}
-                  </select>
-                  <ChevronDown />
+                <label id="series-model-label"><Activity /> MODEL SERI</label>
+                <div className={`model-picker ${modelMenuOpen ? "open" : ""}`}>
+                  <button
+                    className="model-trigger"
+                    type="button"
+                    aria-labelledby="series-model-label"
+                    aria-haspopup="listbox"
+                    aria-expanded={modelMenuOpen}
+                    onClick={() => setModelMenuOpen((open) => !open)}
+                  >
+                    <span>{selected.family}</span>
+                    <b>{selected.series}</b>
+                    <small>PER-SERIES</small>
+                    <ChevronDown />
+                  </button>
+                  {modelMenuOpen && (
+                    <div className="model-options" role="listbox" aria-label="Pilih model seri">
+                      <div className="model-options-head"><span>MODEL DIRECTORY</span><b>6 ACTIVE</b></div>
+                      {predictions.map((item, index) => (
+                        <button
+                          type="button"
+                          role="option"
+                          aria-selected={item.series === selected.series}
+                          className={item.series === selected.series ? "active" : ""}
+                          onClick={() => chooseModel(item.series)}
+                          key={item.series}
+                        >
+                          <i>{String(index + 1).padStart(2, "0")}</i>
+                          <span><b>{item.series}</b><small>{item.family} · {item.tenor}</small></span>
+                          <strong>{item.point.toFixed(3)}%</strong>
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
               <div className="security-facts">
@@ -198,7 +232,7 @@ function App() {
             <div className="table-title"><div><span>MODEL DIRECTORY</span><h2>Pilih model seri</h2></div><small>6 ACTIVE</small></div>
             <div className="table-head"><span>Seri</span><span>Model</span><span>Bawah</span><span>Atas</span></div>
             {predictions.map((item) => (
-              <button className={`table-row ${selected.series === item.series ? "selected" : ""}`} onClick={() => setSelectedSeries(item.series)} key={item.series}>
+              <button className={`table-row ${selected.series === item.series ? "selected" : ""}`} onClick={() => chooseModel(item.series)} key={item.series}>
                 <span className="series-code"><i className={item.family.toLowerCase()} /><span><b>{item.series}</b><small>{item.tenor} · {item.family}</small></span></span>
                 <b className="number prediction-number">{item.point.toFixed(3)}%</b>
                 <span className="number">{item.lower.toFixed(3)}%</span>
