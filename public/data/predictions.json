@@ -2,7 +2,7 @@
   "schema_version": 1,
   "status": "ready",
   "auction_date": "2026-08-11",
-  "updated_at": "2026-08-08T23:34:21+07:00",
+  "updated_at": "2026-08-11T10:54:36+07:00",
   "predictions": [
     {
       "series": "PBS030",
@@ -10,9 +10,9 @@
       "maturity_date": "2028-07-15",
       "tenor_years": 1.922142,
       "coupon_rate_pct": 5.875,
-      "lower": 6.857863,
-      "prediction": 7.29138,
-      "upper": 7.724897,
+      "lower": 6.736169,
+      "prediction": 7.16652,
+      "upper": 7.596871,
       "history": [
         {
           "auction_date": "2026-06-17",
@@ -44,9 +44,9 @@
         },
         {
           "auction_date": "2026-08-11",
-          "lower": 6.857863,
-          "prediction": 7.29138,
-          "upper": 7.724897,
+          "lower": 6.736169,
+          "prediction": 7.16652,
+          "upper": 7.596871,
           "actual": null
         }
       ]
@@ -57,9 +57,9 @@
       "maturity_date": "2030-11-15",
       "tenor_years": 4.255476,
       "coupon_rate_pct": 5.0,
-      "lower": 7.069667,
-      "prediction": 7.295304,
-      "upper": 7.520942,
+      "lower": 6.996802,
+      "prediction": 7.226973,
+      "upper": 7.457144,
       "history": [
         {
           "auction_date": "2026-06-17",
@@ -91,9 +91,9 @@
         },
         {
           "auction_date": "2026-08-11",
-          "lower": 7.069667,
-          "prediction": 7.295304,
-          "upper": 7.520942,
+          "lower": 6.996802,
+          "prediction": 7.226973,
+          "upper": 7.457144,
           "actual": null
         }
       ]
@@ -104,9 +104,9 @@
       "maturity_date": "2039-06-15",
       "tenor_years": 12.838809,
       "coupon_rate_pct": 6.5,
-      "lower": 7.067809,
-      "prediction": 7.219461,
-      "upper": 7.371113,
+      "lower": 7.020403,
+      "prediction": 7.17037,
+      "upper": 7.320337,
       "history": [
         {
           "auction_date": "2026-06-17",
@@ -138,9 +138,9 @@
         },
         {
           "auction_date": "2026-08-11",
-          "lower": 7.067809,
-          "prediction": 7.219461,
-          "upper": 7.371113,
+          "lower": 7.020403,
+          "prediction": 7.17037,
+          "upper": 7.320337,
           "actual": null
         }
       ]
@@ -151,9 +151,9 @@
       "maturity_date": "2049-12-15",
       "tenor_years": 23.338809,
       "coupon_rate_pct": 6.875,
-      "lower": 7.069809,
-      "prediction": 7.217776,
-      "upper": 7.365744,
+      "lower": 7.039718,
+      "prediction": 7.184851,
+      "upper": 7.329984,
       "history": [
         {
           "auction_date": "2026-06-02",
@@ -185,9 +185,9 @@
         },
         {
           "auction_date": "2026-08-11",
-          "lower": 7.069809,
-          "prediction": 7.217776,
-          "upper": 7.365744,
+          "lower": 7.039718,
+          "prediction": 7.184851,
+          "upper": 7.329984,
           "actual": null
         }
       ]
