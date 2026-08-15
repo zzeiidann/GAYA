@@ -61,12 +61,13 @@ Auction coverage and realized yields are anchored to announcements published by 
 
 The dashboard is the delivery surface; the **GAYA Engine** is the private machine-learning computation layer behind it. Every auction cycle is rebuilt from source data, evaluated per eligible bond series, and passed through a release gate before any public artifact is produced.
 
-### Two runs. One public release.
+### Three stages. One public release.
 
 | Cycle | Schedule | Public-safe outcome |
 | --- | --- | --- |
 | Auction preparation | Monday · 08:15 WIB | Resolve the next auction and persist the eligible FR/PBS universe. |
 | Engine refresh | Tuesday · 09:05 WIB | Refresh validated inputs, rebuild eligible series models, and evaluate the release. |
+| Actual-result refresh | Tuesday · 16:05, 19:05, 22:05 WIB; Wednesday · 09:05 retry | Match official realized WAY by auction date and series, including when the following week's series universe changes. |
 | Continuous delivery | Successful release only | Publish one sanitized payload and trigger the production dashboard build. |
 
 ![GAYA weekly data and deployment flow](docs/pipeline-flow.svg)
@@ -128,7 +129,7 @@ If a scheduled auction is unavailable or a series does not have enough observati
   </tr>
 </table>
 
-The public application has no login, browser-side model, secret key, or user input form. It reads a sanitized release from [`public/data/predictions.json`](public/data/predictions.json); model fitting and sensitive inputs remain in the private pipeline.
+The public application has no login, browser-side model, secret key, or user input form. It reads the current sanitized release from [`public/data/predictions.json`](public/data/predictions.json). Dated public-safe snapshots remain under [`public/data/releases`](public/data/releases), so realized results are retained even when the next auction contains different series. Model fitting and sensitive inputs remain in the private pipeline.
 
 ## Operating budget
 
