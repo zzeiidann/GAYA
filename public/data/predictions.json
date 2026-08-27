@@ -2,7 +2,7 @@
   "schema_version": 1,
   "status": "ready",
   "auction_date": "2026-08-26",
-  "updated_at": "2026-08-27T09:56:32+07:00",
+  "updated_at": "2026-08-27T09:57:36+07:00",
   "predictions": [
     {
       "series": "PBS030",
@@ -47,7 +47,8 @@
           "lower": 6.527373,
           "prediction": 6.937618,
           "upper": 7.347864,
-          "actual": null
+          "actual": 6.63945,
+          "actual_source_url": "https://djppr.kemenkeu.go.id/hasillelangsuratberhargasyariahnegarapadaharirabu,tanggal26agustus2026"
         }
       ]
     },
@@ -94,7 +95,8 @@
           "lower": 6.882249,
           "prediction": 7.128173,
           "upper": 7.374097,
-          "actual": null
+          "actual": 6.81317,
+          "actual_source_url": "https://djppr.kemenkeu.go.id/hasillelangsuratberhargasyariahnegarapadaharirabu,tanggal26agustus2026"
         }
       ]
     },
@@ -141,7 +143,8 @@
           "lower": 6.953807,
           "prediction": 7.095657,
           "upper": 7.237506,
-          "actual": null
+          "actual": 7.09923,
+          "actual_source_url": "https://djppr.kemenkeu.go.id/hasillelangsuratberhargasyariahnegarapadaharirabu,tanggal26agustus2026"
         }
       ]
     },
@@ -188,7 +191,8 @@
           "lower": 7.007183,
           "prediction": 7.137192,
           "upper": 7.267201,
-          "actual": null
+          "actual": 7.16176,
+          "actual_source_url": "https://djppr.kemenkeu.go.id/hasillelangsuratberhargasyariahnegarapadaharirabu,tanggal26agustus2026"
         }
       ]
     }
