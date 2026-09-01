@@ -2,7 +2,7 @@
   "schema_version": 1,
   "status": "ready",
   "auction_date": "2026-09-01",
-  "updated_at": "2026-09-01T14:44:25+07:00",
+  "updated_at": "2026-09-01T20:58:43+07:00",
   "predictions": [
     {
       "series": "FR0106",
@@ -47,7 +47,8 @@
           "lower": 6.993061,
           "prediction": 7.185696,
           "upper": 7.37833,
-          "actual": null
+          "actual": 7.13871,
+          "actual_source_url": "https://djppr.kemenkeu.go.id/hasillelangsuratutangnegarapadahariselasa,tanggal1september2026"
         }
       ]
     },
@@ -94,7 +95,8 @@
           "lower": 6.995931,
           "prediction": 7.175987,
           "upper": 7.356043,
-          "actual": null
+          "actual": 7.14843,
+          "actual_source_url": "https://djppr.kemenkeu.go.id/hasillelangsuratutangnegarapadahariselasa,tanggal1september2026"
         }
       ]
     },
@@ -141,7 +143,8 @@
           "lower": 7.133921,
           "prediction": 7.249519,
           "upper": 7.365118,
-          "actual": null
+          "actual": 7.22584,
+          "actual_source_url": "https://djppr.kemenkeu.go.id/hasillelangsuratutangnegarapadahariselasa,tanggal1september2026"
         }
       ]
     },
@@ -188,7 +191,8 @@
           "lower": 7.139216,
           "prediction": 7.256102,
           "upper": 7.372987,
-          "actual": null
+          "actual": 7.22038,
+          "actual_source_url": "https://djppr.kemenkeu.go.id/hasillelangsuratutangnegarapadahariselasa,tanggal1september2026"
         }
       ]
     }
