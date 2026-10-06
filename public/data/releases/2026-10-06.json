@@ -2,7 +2,7 @@
   "schema_version": 1,
   "status": "ready",
   "auction_date": "2026-10-06",
-  "updated_at": "2026-10-06T15:55:25+07:00",
+  "updated_at": "2026-10-06T22:44:12+07:00",
   "predictions": [
     {
       "series": "PBS030",
@@ -47,7 +47,8 @@
           "lower": 6.384419,
           "prediction": 6.79345,
           "upper": 7.20248,
-          "actual": null
+          "actual": 6.8078,
+          "actual_source_url": "https://djppr.kemenkeu.go.id/hasillelangsuratberhargasyariahnegarapadahariselasa,6oktober2026"
         }
       ]
     },
@@ -94,7 +95,8 @@
           "lower": 6.691241,
           "prediction": 7.046424,
           "upper": 7.401607,
-          "actual": null
+          "actual": 7.0368,
+          "actual_source_url": "https://djppr.kemenkeu.go.id/hasillelangsuratberhargasyariahnegarapadahariselasa,6oktober2026"
         }
       ]
     },
@@ -141,7 +143,8 @@
           "lower": 6.948604,
           "prediction": 7.078104,
           "upper": 7.207604,
-          "actual": null
+          "actual": 7.20929,
+          "actual_source_url": "https://djppr.kemenkeu.go.id/hasillelangsuratberhargasyariahnegarapadahariselasa,6oktober2026"
         }
       ]
     },
@@ -188,7 +191,8 @@
           "lower": 7.00867,
           "prediction": 7.123763,
           "upper": 7.238855,
-          "actual": null
+          "actual": 7.21525,
+          "actual_source_url": "https://djppr.kemenkeu.go.id/hasillelangsuratberhargasyariahnegarapadahariselasa,6oktober2026"
         }
       ]
     }
